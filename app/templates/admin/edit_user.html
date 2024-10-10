@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Usuário | eBoi</title>
+    <title>Editar Usuário | eBoi</title>
     <script>
         window.onload = function() {
             var flashMessage = document.getElementById("flash-message").dataset.message;
@@ -16,10 +16,10 @@
     </script>
 </head>
 <body>
-    <h1>Registre-se aqui</h1>
+    <h1>Edite o usuário</h1>
     <div id="flash-message" data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}" data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"></div>
 
-    <form action="/registrar_usuario" method="POST">
+    <form method="POST" action="{{ url_for('editar_usuario', id=id) }}">
         <p>Nome: <input type="text"  name="nome" id="nome" required></p>
         <p>E-mail: <input type="email"  name="email" id="email" required></p>
         <p>Senha: <input type="password"  name="senha" id="senha" required></p>
