@@ -23,28 +23,24 @@ def index():
 # -----------------------------------
 # OPERAÇÕES DE USUÁRIO ->
 
-# ROTA PARA PÁGINA QUE REGISTRA UM NOVO USUÁRIO
-@app.route("/novo_usuario")
-def novo_usuario():
-    # O FORMULÁRIO DO HTML REDIRECIONA PARA A ROTA /registrar_usuario
-    return render_template("auth/register.html")
-
-# RESPONSÁVEL POR DE FATO REGISTRAR O USUÁRIO NO BANCO
-@app.route("/registrar_usuario", methods=["POST"])
+# RESPONSÁVEL POR REGISTRAR O USUÁRIO NO BANCO
+@app.route("/registrar_usuario", methods=["POST", "GET"])
 def registrar_usuario():
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     if request.method == "POST":
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         nome = request.form["nome"]
         email = request.form["email"]
         senha = request.form["senha"]
         try:
             cursor.execute("INSERT INTO usuario (Nome, Email, Senha) VALUES (%s,%s,%s)", (nome, email, senha))
             conn.commit()
-            flash("Usuário adicionado com sucesso!")
+            flash("Usuário adicionado com sucesso!", "success")
+            return redirect(url_for("index"))
         except Exception as e:
-            print(e)
+            print(f"Erro ao registrar usuário: {e}")
             conn.rollback()
-        return redirect(url_for("index"))
+            flash("Erro ao registrar usuário.", "danger")
+    return render_template("auth/register.html")
 
 # -----------------------------------
             
