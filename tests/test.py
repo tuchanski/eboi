@@ -1,7 +1,5 @@
-from flask import Flask, render_template
 import psycopg2 as db_manager
 
-# Lê o arquivo que contém as informações de configurações do banco
 def read_db_settings_file():
     try:
         with open("app/config/db_settings.txt", "r") as settings:
@@ -11,8 +9,8 @@ def read_db_settings_file():
         print("File path not found")
         return None
 
-# Estabelece a conexão com o banco de dados
 def get_db_connection():
+
     DB_PROPERTIES = read_db_settings_file()
 
     if DB_PROPERTIES is not None:
@@ -21,15 +19,8 @@ def get_db_connection():
                                      port=DB_PROPERTIES[4])
         return conn
     
-    return DB_PROPERTIES
+    return None
 
-app = Flask(__name__)
+conn = get_db_connection()
 
-@app.route("/")
-@app.route("/index")
-def getHomeScreen():
-    conn = get_db_connection()
-    conn.cursor()
-    return render_template("home/home.html")
-
-app.run("localhost", 8080, None)
+print(conn.status)
