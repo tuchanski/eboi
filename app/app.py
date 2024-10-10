@@ -1,3 +1,5 @@
+# Instale o driver para comunicação com o Postgresql pip install psycopg2
+
 from flask import Flask, render_template, request, flash, redirect, url_for
 import psycopg2
 import psycopg2.extras
@@ -41,6 +43,37 @@ def registrar_usuario():
             conn.rollback()
             flash("Erro ao registrar usuário.", "danger")
     return render_template("auth/register.html")
+
+# RESPONSÁVEL POR EDITAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
+@app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
+def editar_usuario(id):
+    
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
+        usuario = cursor.fetchone()
+        if not usuario:
+            flash("Usuário não encontrado.", "danger")
+            return redirect(url_for("index"))
+    except Exception as e:
+        flash(f"Erro ao buscar usuário: {e}", "danger")
+        conn.rollback()
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        senha = request.form["senha"]
+        try:
+            cursor.execute("UPDATE usuario SET Nome = %s, Email = %s, Senha = %s WHERE id = %s", (nome, email, senha, id))
+            conn.commit()
+            flash("Dados do usuário atualizados com sucesso!", "success")
+            return redirect(url_for("index"))
+        except Exception as e:
+            print(f"Erro ao atualizar usuário: {e}")
+            conn.rollback()
+            flash("Erro ao atualizar usuário.", "danger")
+    return render_template("admin/edit_user.html", id=id)
 
 # -----------------------------------
             
