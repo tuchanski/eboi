@@ -23,9 +23,24 @@ def index():
     return render_template("home/home.html")
 
 # -----------------------------------
-# OPERAÇÕES DE USUÁRIO ->
+# CRUD DE USUÁRIO ->
 
-# RESPONSÁVEL POR REGISTRAR O USUÁRIO NO BANCO
+# ESSE AQUI POR ENQUANTO TÁ ESTILIZADO COMO UM PROTÓTIPO DO PAINEL DE ADMIN. RECUPERA OS USUÁRIOS E CONTÉM ATALHOS PARA EDITAR E EXCLUIR.
+@app.route("/recuperar_usuarios", methods=["GET"])
+def recuperar_usuarios():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("SELECT * FROM usuario")
+        usuarios = cursor.fetchall()
+        if not usuarios:
+            flash("Usuários não encontrados.", "danger")
+            return redirect(url_for("index"))
+        return render_template("/admin/get_users.html", data=usuarios)
+    except Exception as e:
+        print(f"Erro ao recuperar usuários: {e}")
+    return redirect(url_for("index"))
+
+# RESPONSÁVEL POR REGISTRAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
 @app.route("/registrar_usuario", methods=["POST", "GET"])
 def registrar_usuario():
     if request.method == "POST":
@@ -47,7 +62,6 @@ def registrar_usuario():
 # RESPONSÁVEL POR EDITAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
 def editar_usuario(id):
-    
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
         cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
@@ -74,6 +88,25 @@ def editar_usuario(id):
             conn.rollback()
             flash("Erro ao atualizar usuário.", "danger")
     return render_template("admin/edit_user.html", id=id)
+
+# RESPONSÁVEL POR DELETAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
+@app.route("/deletar_usuario/<int:id>", methods=["GET"])
+def deletar_usuario(id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
+        usuario = cursor.fetchone()
+        if not usuario:
+            flash("Usuário não encontrado.", "danger")
+            return redirect(url_for("index"))
+        cursor.execute("DELETE FROM usuario WHERE id = %s", (id,))
+        conn.commit()
+        flash("Dados deletados", "warning")
+        return redirect(url_for("index"))
+    except Exception as e:
+        flash(f"Erro ao buscar usuário: {e}", "danger")
+        conn.rollback()
+        return redirect(url_for("index"))
 
 # -----------------------------------
             
