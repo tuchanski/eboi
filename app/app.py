@@ -1,36 +1,52 @@
-from flask import Flask, render_template
-import psycopg2 as db_manager
-
-# Lê o arquivo que contém as informações de configurações do banco
-def read_db_settings_file():
-    try:
-        with open("app/config/db_settings.txt", "r") as settings:
-            info = settings.read().strip().split(",")
-            return info
-    except FileNotFoundError:
-        print("File path not found")
-        return None
-
-# Estabelece a conexão com o banco de dados
-def get_db_connection():
-    properties = read_db_settings_file()
-
-    if properties is not None:
-        conn = db_manager.connect(database=properties[0], host=properties[1],
-                                   user=properties[2], password=properties[3],
-                                     port=properties[4])
-        return conn
-    
-    # Retornando None
-    return properties
+from flask import Flask, render_template, request, flash, redirect, url_for
+import psycopg2
+import psycopg2.extras
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
+# INFORMAÇÕES DE CONEXÃO COM BANCO Postgresql
+DB_HOST = "localhost"
+DB_NAME = "eBoi"
+DB_USER  = "postgres"
+DB_PASS = "root"
+DB_PORT = "5432"
+
+conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
+
+# ROTA DA PÁGINA INICIAL
 @app.route("/")
-@app.route("/index")
-def getHomeScreen():
-    conn = get_db_connection()
-    conn.cursor()
+def index():
     return render_template("home/home.html")
 
-app.run("localhost", 8080, None)
+# -----------------------------------
+# OPERAÇÕES DE USUÁRIO ->
+
+# ROTA PARA PÁGINA QUE REGISTRA UM NOVO USUÁRIO
+@app.route("/novo_usuario")
+def novo_usuario():
+    # O FORMULÁRIO DO HTML REDIRECIONA PARA A ROTA /registrar_usuario
+    return render_template("auth/register.html")
+
+# RESPONSÁVEL POR DE FATO REGISTRAR O USUÁRIO NO BANCO
+@app.route("/registrar_usuario", methods=["POST"])
+def registrar_usuario():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        senha = request.form["senha"]
+        try:
+            cursor.execute("INSERT INTO usuario (Nome, Email, Senha) VALUES (%s,%s,%s)", (nome, email, senha))
+            conn.commit()
+            flash("Usuário adicionado com sucesso!")
+        except Exception as e:
+            print(e)
+            conn.rollback()
+        return redirect(url_for("index"))
+
+# -----------------------------------
+            
+if __name__ == "__main__":
+    app.run("localhost", 8080, None)
