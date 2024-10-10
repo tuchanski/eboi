@@ -13,15 +13,16 @@ def read_db_settings_file():
 
 # Estabelece a conexão com o banco de dados
 def get_db_connection():
-    DB_PROPERTIES = read_db_settings_file()
+    properties = read_db_settings_file()
 
-    if DB_PROPERTIES is not None:
-        conn = db_manager.connect(database=DB_PROPERTIES[0], host=DB_PROPERTIES[1],
-                                   user=DB_PROPERTIES[2], password=DB_PROPERTIES[3],
-                                     port=DB_PROPERTIES[4])
+    if properties is not None:
+        conn = db_manager.connect(database=properties[0], host=properties[1],
+                                   user=properties[2], password=properties[3],
+                                     port=properties[4])
         return conn
     
-    return DB_PROPERTIES
+    # Retornando None
+    return properties
 
 app = Flask(__name__)
 
