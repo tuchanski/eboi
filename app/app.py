@@ -1,6 +1,6 @@
 # Instale o driver para comunicação com o Postgresql pip install psycopg2
 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 import psycopg2
 import psycopg2.extras
 import os
@@ -22,8 +22,46 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 def index():
     return render_template("home/home.html")
 
+# LÓGICA DO LOGIN COM VALIDAÇÃO
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        email = request.form["email"]
+        senha = request.form["senha"]
+        try:
+            cursor.execute("SELECT * FROM usuario WHERE Email = %s AND Senha = %s", (email, senha))
+            usuario = cursor.fetchone()
+            if not usuario:
+                flash("Informações incorretas.", "danger")
+                return redirect(url_for("login"))
+            
+            session["usuario_id"] = usuario["id"]
+            session["usuario_email"] = usuario["email"]
+
+            flash("Login bem-sucedido!", "success")
+            return redirect(url_for("index"))
+        except Exception as e:
+            flash(f"Erro ao buscar usuário: {e}", "danger")
+            return redirect(url_for("login"))
+    return render_template("auth/login.html")
+
+
+# TELA DO PERFIL DO USUÁRIO
+
+@app.route("/perfil")
+def perfil():
+    if "usuario_id" not in session:
+        flash("Você precisa estar logado para acessar esta página.", "danger")
+        return redirect(url_for("login"))
+    
+    return f"Bem-vindo, {session['usuario_email']}!"
+
 # -----------------------------------
-# CRUD DE USUÁRIO ->
+# - PERMISSÕES DE ADMIN -
+
+# 1. CRUD DE USUÁRIO ->
 
 # ESSE AQUI POR ENQUANTO TÁ ESTILIZADO COMO UM PROTÓTIPO DO PAINEL DE ADMIN. RECUPERA OS USUÁRIOS E CONTÉM ATALHOS PARA EDITAR E EXCLUIR.
 @app.route("/recuperar_usuarios", methods=["GET"])
@@ -40,7 +78,7 @@ def recuperar_usuarios():
         print(f"Erro ao recuperar usuários: {e}")
     return redirect(url_for("index"))
 
-# RESPONSÁVEL POR REGISTRAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
+# RESPONSÁVEL POR REGISTRAR O USUÁRIO NO BANCO
 @app.route("/registrar_usuario", methods=["POST", "GET"])
 def registrar_usuario():
     if request.method == "POST":
@@ -59,7 +97,7 @@ def registrar_usuario():
             flash("Erro ao registrar usuário.", "danger")
     return render_template("auth/register.html")
 
-# RESPONSÁVEL POR EDITAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
+# RESPONSÁVEL POR EDITAR O USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
 def editar_usuario(id):
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -89,7 +127,7 @@ def editar_usuario(id):
             flash("Erro ao atualizar usuário.", "danger")
     return render_template("admin/edit_user.html", id=id)
 
-# RESPONSÁVEL POR DELETAR O USUÁRIO NO BANCO (PRIVILÉGIO DE ADMIN)
+# RESPONSÁVEL POR DELETAR O USUÁRIO NO BANCO
 @app.route("/deletar_usuario/<int:id>", methods=["GET"])
 def deletar_usuario(id):
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
