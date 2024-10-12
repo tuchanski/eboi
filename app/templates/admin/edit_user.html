@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuário | eBoi</title>
+    <link rel="stylesheet" href="/app/templates/styles/style-edit-user.css">
     <script>
         window.onload = function() {
             var flashMessage = document.getElementById("flash-message").dataset.message;
@@ -16,14 +17,46 @@
     </script>
 </head>
 <body>
-    <h1>Edite o usuário</h1>
+
     <div id="flash-message" data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}" data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"></div>
 
-    <form method="POST" action="{{ url_for('editar_usuario', id=id) }}">
+    <img src="/app/templates/assets/logoeboiadmin.png" alt="Logo eBoi" class="logo">
+
+    <div class="container">
+        <div class="edicao-left">
+            <div class="image-wrapper">
+                <img src="/app/templates/assets/img-figma3.png" alt="Imagem de edição">
+                <div class="overlay">
+                    <p>Edite ou remova usuários com o <br> <span class="highlight">Painel Admin eBoi</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="edicao-right">
+            <h1>Editar Usuário</h1>
+            <p class="subtitle">Atualize os dados abaixo:</p>
+            <form method="POST" action="{{ url_for('editar_usuario', id=id) }}"">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" placeholder="Insira o nome" value="{{ usuario.Nome }}" required>
+                
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="Insira o e-mail" value="{{ usuario.Email }}" required>
+                
+                <label for="senha">Nova Senha (deixe em branco para não alterar)</label>
+                <input type="password" id="senha" name="senha" placeholder="Insira a nova senha">
+                
+                <button type="submit" class="btn-editar">Salvar Alterações</button>
+            </form>
+            <form action="/deletar_usuario/{{ usuario.id }}" method="GET" onsubmit="return confirmDeletion()">
+                <button type="submit" class="btn-remover">Remover Usuário</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- <form method="POST" action="{{ url_for('editar_usuario', id=id) }}">
         <p>Nome: <input type="text"  name="nome" id="nome" required></p>
         <p>E-mail: <input type="email"  name="email" id="email" required></p>
         <p>Senha: <input type="password"  name="senha" id="senha" required></p>
         <p><input type="submit" value="Enviar"></p>
-    </form>
+    </form> -->
 </body>
 </html>
