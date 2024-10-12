@@ -9,13 +9,13 @@
 
 body {
     font-family: "Roboto", sans-serif;
-    background-color: #F5F5F5;
+    background-color: #E1E1E1;
     color: #333;
 }
 
 /* Header */
 header {
-    background-color: #FFF;
+    background-color: #E1E1E1;
     padding: 20px;
 }
 
@@ -72,7 +72,7 @@ nav ul.menu li a {
     justify-content: space-between;
     align-items: center;
     padding: 50px;
-    background-color: #EDEDED;
+    background-color: #E1E1E1;
 }
 
 .content {
