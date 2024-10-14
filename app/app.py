@@ -15,12 +15,11 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "postgres" # MUDE CONFORME A SUA MÁQUINA
+DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 # CONEXÃO COM BANCO DE DADOS
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
-
 
 # -- GERAL DO MQTT --
 
@@ -132,7 +131,28 @@ def login():
 @app.route("/perfil")
 @login_required
 def perfil():
-    return f"Bem-vindo, {session['usuario_email']}!"
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        id = session["usuario_id"]
+        cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
+        usuario = cursor.fetchone()
+        return render_template("profile/perfil.html", usuario=usuario)
+    except Exception as e:
+        print(f"Erro ao recuperar usuário: {e}")
+    return redirect(url_for("index"))
+
+# ROTA PARA LOGOUT
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Você saiu da sua conta.", "info")
+    return redirect(url_for("login"))
+
+
+@app.route("/admin")
+@admin_required
+def admin():
+    return render_template("admin/admin.html")
 
 # -----------------------------------
 # - PERMISSÕES DE ADMIN -

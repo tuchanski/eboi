@@ -20,7 +20,7 @@
           <a href="/"
             ><img
               src="{{ url_for('static', filename='images/logoeboi.png') }}"
-              alt=""
+              alt="Logo eBoi"
           /></a>
         </div>
         <ul class="menu">
@@ -42,11 +42,11 @@
           />
         </div>
         <div class="user-details">
-          <h2>Nome: João da Silva</h2>
-          <p>Email: joao.silva@example.com</p>
-          <p>Telefone: (11) 91234-5678</p>
-          <p>Fazenda: Fazenda São Pedro</p>
-          <p>Localização: São Paulo, SP</p>
+          <h2>Nome: {{ usuario['nome'] }}</h2>
+          <p>Email: {{ usuario['email'] }}</p>
+          <p>Telefone: (Telefone aqui)</p>
+          <p>Fazenda: (Fazenda aqui)</p>
+          <p>Localização: (Localização aqui)</p>
           <a href="/editar_perfil" class="btn-edit">Editar Perfil</a>
         </div>
       </div>
