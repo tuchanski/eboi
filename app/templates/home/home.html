@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | eBoi</title>
-  <link rel="stylesheet" href="/app/templates/styles/style-home.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-home.css') }}">
 </head>
 <body>
   
   <header>
     <nav class="navbar">
         <div class="logo">
-            <img src="/app/templates/assets/logoeboi.png" alt="">
+            <img src="{{ url_for('static', filename='images/logoeboi.png') }}" alt="">
         </div>
         <ul class="menu">
             <li><a href="#">Início</a></li>
@@ -30,7 +30,7 @@
           <a href="#" class="btn-cotar">Cotar agora</a>
       </div>
       <div class="image">
-          <img src="/app/templates/assets/tablet-e-boi.png" alt="Tablet mostrando monitoramento de bois">
+          <img src="{{ url_for('static', filename='images/tablet-e-boi.png') }}" alt="Tablet mostrando monitoramento de bois">
       </div>
   </section>
 

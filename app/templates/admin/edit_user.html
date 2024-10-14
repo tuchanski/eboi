@@ -20,12 +20,12 @@
 
     <div id="flash-message" data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}" data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"></div>
 
-    <img src="/app/templates/assets/logoeboiadmin.png" alt="Logo eBoi" class="logo">
+    <img src="{{ url_for('static', filename='images/logoeboi.png') }}" alt="Logo eBoi" class="logo">
 
     <div class="container">
         <div class="edicao-left">
             <div class="image-wrapper">
-                <img src="/app/templates/assets/img-figma3.png" alt="Imagem de edição">
+                <img src="{{ url_for('static', filename='images/img-figma3.png') }}" alt="Imagem de edição">
                 <div class="overlay">
                     <p>Edite ou remova usuários com o <br> <span class="highlight">Painel Admin eBoi</span></p>
                 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | eBoi</title>
-    <link rel="stylesheet" href="/app/templates/styles/style-login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
     <script>
       window.onload = function () {
         var flashMessage =
@@ -25,12 +25,12 @@
       data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
     ></div>
 
-    <img src="/app/templates/assets/logoeboi.png" alt="Logo eBoi" class="logo">
+    <img src="{{ url_for('static', filename='images/logoeboi.png') }}" alt="Logo eBoi" class="logo">
 
     <div class="container">
       <div class="login-left">
           <div class="image-wrapper">
-              <img src="/app/templates/assets/img-figma2.png" alt="Imagem de animais">
+              <img src="{{ url_for('static', filename='images/img-figma2.png') }}" alt="Imagem de animais">
               <div class="overlay">
                   <p>Rastreie seus animais em tempo real com <span class="highlight">precisão e segurança.</span></p>
               </div>

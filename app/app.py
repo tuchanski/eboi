@@ -107,7 +107,7 @@ def registrar_usuario():
             print(f"Erro ao registrar usuário: {e}")
             conn.rollback()
             flash("Erro ao registrar usuário.", "danger")
-    return render_template("auth/register.html")
+    return render_template("admin/register_user.html")
 
 # EDITAR E DELETAR USUÁRIO NO BANCO
 @app.route("/gerenciar_usuario/<int:id>", methods=["POST", "GET"])
