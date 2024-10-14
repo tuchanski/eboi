@@ -30,6 +30,7 @@ def admin_required(f):
 
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
+@app.route("/home")
 def index():
     return render_template("home/home.html")
 

@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | eBoi</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style-home.css') }}">
+  <script>
+    function showLoginSuccess(message) {
+      if (message) {
+        alert(message);
+      }
+    }
+  </script>
 </head>
 <body>
   
@@ -34,17 +41,15 @@
       </div>
   </section>
 
-  <!-- SEQUENCIA DE CODIGO PARA EXIBIR FLASH, A SER ESTILIZADO.
+  <!-- Flash messages -->
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
+      <script>
+        // Chama a função para exibir a mensagem de sucesso
+        showLoginSuccess("{{ messages[0] }}");
+      </script>
     {% endif %}
   {% endwith %}
-  {% block body %}{% endblock %} -->
   
 </body>
 </html>
