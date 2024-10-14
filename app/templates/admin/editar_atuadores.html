@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Atuador</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-sensor-atuador.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Editar Atuador</h1>
+      <form method="POST">
+        <label for="nome">Nome do Atuador:</label>
+        <input type="text" name="nome" id="nome" required />
+
+        <label for="tipo">Tipo de Atuador:</label>
+        <input type="text" name="tipo" id="tipo" required />
+
+        <label for="estado">Estado Atual:</label>
+        <input type="text" name="estado" id="estado" required />
+
+        <button type="submit">Salvar Alterações</button>
+      </form>
+    </div>
+  </body>
+</html>

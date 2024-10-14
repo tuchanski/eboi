@@ -101,6 +101,16 @@ def sobre_nos():
 def faq():
     return render_template("others/faq.html")
 
+# ROTA EDITAR SENSORES
+@app.route("/editar_sensores")
+def editar_sensores():
+    return render_template("admin/editar_sensores.html")
+
+# ROTA EDITAR ATUADOERS
+@app.route("/editar_atuadores")
+def editar_atuadores():
+    return render_template("admin/editar_atuadores.html")
+
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -150,7 +160,7 @@ def logout():
 
 
 @app.route("/admin")
-@admin_required
+# @admin_required
 def admin():
     return render_template("admin/admin.html")
 
