@@ -30,9 +30,13 @@ def admin_required(f):
 
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
-@app.route("/home")
 def index():
-    return render_template("home/home.html")
+    usuario_tipo = session.get('usuario_tipo')
+
+    if usuario_tipo:
+        return render_template("home/home.html", usuario_tipo=usuario_tipo)
+    else:
+        return redirect(url_for("login"))
 
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
