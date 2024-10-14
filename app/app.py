@@ -1,5 +1,6 @@
 # Instale o driver para comunicação com o Postgresql pip install psycopg2
 
+from functools import wraps
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 import psycopg2
 import psycopg2.extras
@@ -16,6 +17,16 @@ DB_PASS = "root"
 DB_PORT = "5432"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
+
+# VERIFICA SE USUÁRIO É ADMINISTRADOR OU NÃO. CASO NÃO SEJA/NÃO ESTEJA LOGADO, REDIRECIONA P/ HOME.
+def admin_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if "usuario_id" not in session or session.get("usuario_tipo") != "admin":
+            flash("Acesso restrito aos administradores.", "danger")
+            return redirect(url_for("index"))
+        return f(*args, **kwargs)
+    return wrap
 
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
@@ -39,6 +50,7 @@ def login():
             
             session["usuario_id"] = usuario["id"]
             session["usuario_email"] = usuario["email"]
+            session["usuario_tipo"] = usuario["tipo"]
 
             flash("Login bem-sucedido!", "success")
             return redirect(url_for("index"))
@@ -46,7 +58,6 @@ def login():
             flash(f"Erro ao buscar usuário: {e}", "danger")
             return redirect(url_for("login"))
     return render_template("auth/login.html")
-
 
 # TELA DO PERFIL DO USUÁRIO
 
@@ -65,6 +76,7 @@ def perfil():
 
 # ESSE AQUI POR ENQUANTO TÁ ESTILIZADO COMO UM PROTÓTIPO DO PAINEL DE ADMIN. RECUPERA OS USUÁRIOS E CONTÉM ATALHOS PARA EDITAR E EXCLUIR.
 @app.route("/recuperar_usuarios", methods=["GET"])
+@admin_required
 def recuperar_usuarios():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
@@ -99,6 +111,7 @@ def registrar_usuario():
 
 # RESPONSÁVEL POR EDITAR O USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
+@admin_required
 def editar_usuario(id):
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
@@ -129,6 +142,7 @@ def editar_usuario(id):
 
 # RESPONSÁVEL POR DELETAR O USUÁRIO NO BANCO
 @app.route("/deletar_usuario/<int:id>", methods=["GET"])
+@admin_required
 def deletar_usuario(id):
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
