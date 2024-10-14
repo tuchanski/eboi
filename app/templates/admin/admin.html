@@ -13,47 +13,43 @@
     <header>
       <nav class="navbar">
         <div class="logo">
-          <img
-            src="{{ url_for('static', filename='assets/logoeboi.png') }}"
-            alt="Logo eBoi"
-          />
+          <a href="/"
+            ><img
+              src="{{ url_for('static', filename='images/logoeboiadmin.png') }}"
+              alt="Logo eBoi"
+          /></a>
         </div>
         <ul class="menu">
-          <li><a href="#">Início</a></li>
-          <li><a href="#">Sobre nós</a></li>
-          <li><a href="#">Cotar</a></li>
-          <li><a href="#">FAQ</a></li>
+          <li><a href="/">Home</a></li>
         </ul>
-        <a href="/logout" class="btn-logout">Sair</a>
+        <a href="/logout" class="btn-area-cliente">Sair</a>
       </nav>
     </header>
 
     <main>
-      <div class="container">
-        <h1>Painel de Administração</h1>
-        <p>Gerencie usuários e dispositivos a partir desta página.</p>
+      <section class="hero-admin">
+        <div class="content-admin">
+          <h1>Painel de Administração</h1>
+          <p>Gerencie usuários e dispositivos a partir desta página.</p>
+        </div>
         <div class="admin-actions">
           <div class="action-card">
             <h2>Registrar Usuário</h2>
             <p>Adicione um novo usuário ao sistema.</p>
-            <a href="/register-user" class="action-btn">Registrar</a>
+            <a href="/registrar_usuario" class="btn-cotar">Registrar</a>
           </div>
           <div class="action-card">
             <h2>Registrar Dispositivo</h2>
             <p>Adicione um novo dispositivo ao sistema.</p>
-            <a href="/register-device" class="action-btn">Registrar</a>
+            <a href="/registrar_dispositivos" class="btn-cotar">Registrar</a>
           </div>
           <div class="action-card">
             <h2>Editar Usuário</h2>
             <p>Atualize as informações de um usuário existente.</p>
-            <a href="/edit-user" class="action-btn">Editar</a>
+            <a href="/editar_usuario" class="btn-cotar">Editar</a>
           </div>
         </div>
-      </div>
+      </section>
     </main>
-
-    <footer>
-      <p>&copy; 2024 eBoi. Todos os direitos reservados.</p>
-    </footer>
   </body>
 </html>

@@ -28,10 +28,11 @@
       data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
     ></div>
 
-    <a href="/home"
+    <a href="/"
       ><img
         src="{{ url_for('static', filename='images/logoeboi.png') }}"
         alt=""
+        class="logo"
     /></a>
 
     <div class="container">
