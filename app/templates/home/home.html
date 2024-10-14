@@ -1,55 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home | eBoi</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-home.css') }}">
-  <script>
-    function showLoginSuccess(message) {
-      if (message) {
-        alert(message);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | eBoi</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-home.css') }}"
+    />
+    <script>
+      function showLoginSuccess(message) {
+        if (message) {
+          alert(message);
+        }
       }
-    }
-  </script>
-</head>
-<body>
-  
-  <header>
-    <nav class="navbar">
+    </script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
         <div class="logo">
-            <img src="{{ url_for('static', filename='images/logoeboi.png') }}" alt="">
+          <a href="/home"
+            ><img
+              src="{{ url_for('static', filename='images/logoeboi.png') }}"
+              alt=""
+          /></a>
         </div>
         <ul class="menu">
-            <li><a href="#">Início</a></li>
-            <li><a href="#">Sobre nós</a></li>
-            <li><a href="#">Cotar</a></li>
-            <li><a href="#">FAQ</a></li>
+          <li><a href="/home">Início</a></li>
+          <li><a href="/sobre-nos">Sobre nós</a></li>
+          <li><a href="/cotar">Cotar</a></li>
+          <li><a href="/faq">FAQ</a></li>
         </ul>
         <a href="/perfil" class="btn-area-cliente">Área do Cliente</a>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
-  <section class="hero">
+    <section class="hero">
       <div class="content">
-          <h1>Monitoramento Inteligente</h1>
-          <p>Acompanhe a <span class="highlight">localização</span> e o <span class="highlight">bem-estar</span> de seus animais em tempo real, onde quer que você esteja.</p>
-          <a href="#" class="btn-cotar">Cotar agora</a>
+        <h1>Monitoramento Inteligente</h1>
+        <p>
+          Acompanhe a <span class="highlight">localização</span> e o
+          <span class="highlight">bem-estar</span> de seus animais em tempo
+          real, onde quer que você esteja.
+        </p>
+        <a href="/cotar" class="btn-cotar">Cotar agora</a>
       </div>
       <div class="image">
-          <img src="{{ url_for('static', filename='images/tablet-e-boi.png') }}" alt="Tablet mostrando monitoramento de bois">
+        <img
+          src="{{ url_for('static', filename='images/tablet-e-boi.png') }}"
+          alt="Tablet mostrando monitoramento de bois"
+        />
       </div>
-  </section>
+    </section>
 
-  <!-- Flash messages -->
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <script>
-        // Chama a função para exibir a mensagem de sucesso
-        showLoginSuccess("{{ messages[0] }}");
-      </script>
-    {% endif %}
-  {% endwith %}
-  
-</body>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      // Chama a função para exibir a mensagem de sucesso
+      showLoginSuccess("{{ messages[0] }}");
+    </script>
+    {% endif %} {% endwith %}
+  </body>
 </html>

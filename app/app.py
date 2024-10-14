@@ -34,6 +34,21 @@ def admin_required(f):
 def index():
     return render_template("home/home.html")
 
+# ROTA DA PÁGINA COTAR
+@app.route("/cotar")
+def cotar():
+    return render_template("others/cotar.html")
+
+# ROTA DA PÁGINA SOBRE NOS
+@app.route("/sobre-nos")
+def sobre_nos():
+    return render_template("others/sobre-nos.html")
+
+# ROTA DA PÁGINA FAQ
+@app.route("/faq")
+def faq():
+    return render_template("others/faq.html")
+
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
 def login():

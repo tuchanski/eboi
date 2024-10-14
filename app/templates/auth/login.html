@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | eBoi</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-login.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-login.css') }}"
+    />
     <script>
       window.onload = function () {
         var flashMessage =
@@ -25,35 +28,55 @@
       data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
     ></div>
 
-    <img src="{{ url_for('static', filename='images/logoeboi.png') }}" alt="Logo eBoi" class="logo">
+    <a href="/home"
+      ><img
+        src="{{ url_for('static', filename='images/logoeboi.png') }}"
+        alt=""
+    /></a>
 
     <div class="container">
       <div class="login-left">
-          <div class="image-wrapper">
-              <img src="{{ url_for('static', filename='images/img-figma2.png') }}" alt="Imagem de animais">
-              <div class="overlay">
-                  <p>Rastreie seus animais em tempo real com <span class="highlight">precisão e segurança.</span></p>
-              </div>
+        <div class="image-wrapper">
+          <img
+            src="{{ url_for('static', filename='images/img-figma2.png') }}"
+            alt="Imagem de animais"
+          />
+          <div class="overlay">
+            <p>
+              Rastreie seus animais em tempo real com
+              <span class="highlight">precisão e segurança.</span>
+            </p>
           </div>
+        </div>
       </div>
       <div class="login-right">
-          <h1>Entre em sua conta</h1>
-          <p class="subtitle">Não compartilhe seus dados com ninguém!</p>
-          <form action="/login" method="POST">
-              <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" placeholder="Insira seu e-mail">
-              
-              <label for="password">Senha</label>
-              <input type="password" id="password" name="password" placeholder="Insira sua senha">
-              
-              <a href="#" class="forgot-password">Esqueceu sua senha?</a>
-              
-              <button type="submit" class="btn-login">Entrar</button>
-          </form>
+        <h1>Entre em sua conta</h1>
+        <p class="subtitle">Não compartilhe seus dados com ninguém!</p>
+        <form action="/login" method="POST">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Insira seu e-mail"
+          />
+
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Insira sua senha"
+          />
+
+          <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+
+          <button type="submit" class="btn-login">Entrar</button>
+        </form>
       </div>
     </div>
-    
-<!-- 
+
+    <!-- 
     <form action="/login" method="POST">
       <p>E-mail: <input type="email" name="email" id="email" required /></p>
       <p>Senha: <input type="password" name="senha" id="senha" required /></p>

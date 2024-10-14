@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel de Administração | eBoi</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-admin.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='assets/logoeboi.png') }}"
+            alt="Logo eBoi"
+          />
+        </div>
+        <ul class="menu">
+          <li><a href="#">Início</a></li>
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Cotar</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+        <a href="/logout" class="btn-logout">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <h1>Painel de Administração</h1>
+        <p>Gerencie usuários e dispositivos a partir desta página.</p>
+        <div class="admin-actions">
+          <div class="action-card">
+            <h2>Registrar Usuário</h2>
+            <p>Adicione um novo usuário ao sistema.</p>
+            <a href="/register-user" class="action-btn">Registrar</a>
+          </div>
+          <div class="action-card">
+            <h2>Registrar Dispositivo</h2>
+            <p>Adicione um novo dispositivo ao sistema.</p>
+            <a href="/register-device" class="action-btn">Registrar</a>
+          </div>
+          <div class="action-card">
+            <h2>Editar Usuário</h2>
+            <p>Atualize as informações de um usuário existente.</p>
+            <a href="/edit-user" class="action-btn">Editar</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 eBoi. Todos os direitos reservados.</p>
+    </footer>
+  </body>
+</html>
