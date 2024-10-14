@@ -1,0 +1,40 @@
+<form method="POST">
+    <label for="dispositivo">Escolha o dispositivo:</label>
+    <select id="dispositivo" name="dispositivo" onchange="showFormFields(this.value)">
+        <option value="portao">ESP Portão</option>
+        <option value="sensor_distancia">Sensor de Distância</option>
+        <option value="buzzer">Buzzer</option>
+        <option value="led">LED</option>
+        <option value="sensor_temperatura">Sensor de Temperatura</option>
+    </select>
+    
+    <div id="portao-fields" class="form-section" style="display:none;">
+        <label for="localizacao">Localização:</label>
+        <input type="text" id="localizacao" name="localizacao" required>
+        <label for="data_instalacao">Data de Instalação:</label>
+        <input type="date" id="data_instalacao" name="data_instalacao" required>
+        <label for="fazendaid">Fazenda ID:</label>
+        <input type="text" id="fazendaid" name="fazendaid" required>
+    </div>
+    
+    <div id="esp_portao-fields" class="form-section" style="display:none;">
+        <label for="esp_portaoid">ESP Portão ID:</label>
+        <input type="text" id="esp_portaoid" name="esp_portaoid" required>
+    </div>
+
+    <button type="submit">Registrar</button>
+</form>
+
+<script>
+function showFormFields(dispositivo) {
+    document.querySelectorAll('.form-section').forEach(function(section) {
+        section.style.display = 'none';
+    });
+    
+    if (dispositivo === "portao") {
+        document.getElementById('portao-fields').style.display = 'block';
+    } else {
+        document.getElementById('esp_portao-fields').style.display = 'block';
+    }
+}
+</script>
