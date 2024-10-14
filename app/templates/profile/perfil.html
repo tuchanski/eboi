@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil | eBoi</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-profile.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-home.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <img
+            src="{{ url_for('static', filename='images/logoeboi.png') }}"
+            alt="Logo eBoi"
+          />
+        </div>
+        <ul class="menu">
+          <li><a href="/perfil">Meu Perfil</a></li>
+        </ul>
+        <a href="/logout" class="btn-logout">Sair</a>
+      </nav>
+    </header>
+
+    <section class="profile">
+      <div class="profile-header">
+        <h1>Perfil do Usuário</h1>
+      </div>
+      <div class="profile-info">
+        <div class="profile-picture">
+          <img
+            src="{{ url_for('static', filename='images/profile-user.jpg') }}"
+            alt="Foto de perfil"
+          />
+        </div>
+        <div class="user-details">
+          <h2>Nome: João da Silva</h2>
+          <p>Email: joao.silva@example.com</p>
+          <p>Telefone: (11) 91234-5678</p>
+          <p>Fazenda: Fazenda São Pedro</p>
+          <p>Localização: São Paulo, SP</p>
+          <a href="/editar-perfil" class="btn-edit">Editar Perfil</a>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

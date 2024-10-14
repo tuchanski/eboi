@@ -13,7 +13,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
+DB_PASS = "postgres" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
