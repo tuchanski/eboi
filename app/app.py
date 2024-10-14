@@ -13,7 +13,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "root"
+DB_PASS = "postgres"
 DB_PORT = "5432"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -107,7 +107,7 @@ def registrar_usuario():
             print(f"Erro ao registrar usuário: {e}")
             conn.rollback()
             flash("Erro ao registrar usuário.", "danger")
-    return render_template("auth/register.html")
+    return render_template("admin/register_user.html")
 
 # EDITAR E DELETAR USUÁRIO NO BANCO
 @app.route("/gerenciar_usuario/<int:id>", methods=["POST", "GET"])

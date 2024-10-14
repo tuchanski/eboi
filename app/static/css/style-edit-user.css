@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #E1E1E1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    left: 50px;
+    width: 260px;
+    height: auto;
+    transition: .6s;
+}
+
+.logo:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    max-width: 900px;
+    width: 100%;
+    height: 600px;
+    box-shadow: 7px 6px 12.2px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.edicao-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1E1E1;
+    border-radius: 16px;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px 0 0 10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+    text-align: left;
+    width: 80%;
+}
+
+.overlay .highlight {
+    font-style: italic;
+    font-weight: bolder;
+    color: white;
+}
+
+.edicao-right {
+    flex: 1;
+    background-color: #E1E1E1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 34px;
+    color: #3B2110;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #556B2F;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #3B2110;
+}
+
+input {
+    font-size: 16px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+}
+
+input:focus {
+    border-color: #94B40B;
+    outline: none;
+}
+
+.btn-editar, .btn-remover {
+    display: block;
+    background-color: #94B40B;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto;
+    width: 200px;
+}
+
+.btn-editar:hover, .btn-remover:hover {
+    background-color: #789205;
+}
+
+/* Estilo remover */
+.btn-remover {
+    background-color: #D9534F;
+}
+
+.btn-remover:hover {
+    background-color: #C9302C;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .edicao-left, .edicao-right {
+        flex: none;
+        width: 100%;
+    }
+
+    .image-wrapper img {
+        border-radius: 0;
+    }
+
+    .overlay {
+        width: 90%;
+    }
+}
