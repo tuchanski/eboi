@@ -1,40 +1,76 @@
-<form method="POST">
-    <label for="dispositivo">Escolha o dispositivo:</label>
-    <select id="dispositivo" name="dispositivo" onchange="showFormFields(this.value)">
-        <option value="portao">ESP Portão</option>
-        <option value="sensor_distancia">Sensor de Distância</option>
-        <option value="buzzer">Buzzer</option>
-        <option value="led">LED</option>
-        <option value="sensor_temperatura">Sensor de Temperatura</option>
-    </select>
-    
-    <div id="portao-fields" class="form-section" style="display:none;">
-        <label for="localizacao">Localização:</label>
-        <input type="text" id="localizacao" name="localizacao" required>
-        <label for="data_instalacao">Data de Instalação:</label>
-        <input type="date" id="data_instalacao" name="data_instalacao" required>
-        <label for="fazendaid">Fazenda ID:</label>
-        <input type="text" id="fazendaid" name="fazendaid" required>
-    </div>
-    
-    <div id="esp_portao-fields" class="form-section" style="display:none;">
-        <label for="esp_portaoid">ESP Portão ID:</label>
-        <input type="text" id="esp_portaoid" name="esp_portaoid" required>
-    </div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Dispositivos | eBoi</title>
+    <link rel="stylesheet" href="/app/templates/styles/style-registro.css">
+    <script>
+        function showFormFields(dispositivo) {
+            document.querySelectorAll('.form-section').forEach(function (section) {
+                section.style.display = 'none';
+            });
 
-    <button type="submit">Registrar</button>
-</form>
+            if (dispositivo === "portao") {
+                document.getElementById('portao-fields').style.display = 'block';
+            } else {
+                document.getElementById('esp_portao-fields').style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <img src="/app/templates/assets/logoeboiadmin.png" alt="Logo eBoi" class="logo">
 
-<script>
-function showFormFields(dispositivo) {
-    document.querySelectorAll('.form-section').forEach(function(section) {
-        section.style.display = 'none';
-    });
-    
-    if (dispositivo === "portao") {
-        document.getElementById('portao-fields').style.display = 'block';
-    } else {
-        document.getElementById('esp_portao-fields').style.display = 'block';
-    }
-}
-</script>
+    <div class="container">
+        <div class="registro-left">
+            <div class="image-wrapper">
+                <img src="/app/templates/assets/img-figma2.png" alt="Imagem de Registro">
+                <div class="overlay">
+                    <p>Registre seus <span class="highlight">dispositivos</span> de forma simples e rápida.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="registro-right">
+            <h1>Registrar Dispositivo</h1>
+            <p class="subtitle">Escolha e preencha os detalhes:</p>
+            <form method="POST">
+                <label for="dispositivo">Escolha o dispositivo:</label>
+                <select id="dispositivo" name="dispositivo" onchange="showFormFields(this.value)">
+                    <option value="">Selecione um dispositivo</option>
+                    <option value="portao">ESP Portão</option>
+                    <option value="sensor_distancia">Sensor de Distância</option>
+                    <option value="buzzer">Buzzer</option>
+                    <option value="led">LED</option>
+                    <option value="sensor_temperatura">Sensor de Temperatura</option>
+                </select>
+
+                <div id="portao-fields" class="form-section" style="display:none;">
+                    <div class="form-group">
+                        <label for="localizacao">Localização:</label>
+                        <input type="text" id="localizacao" name="localizacao" placeholder="Digite a localização" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="data_instalacao">Data de Instalação:</label>
+                        <input type="date" id="data_instalacao" name="data_instalacao" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="fazendaid">Fazenda ID:</label>
+                        <input type="text" id="fazendaid" name="fazendaid" placeholder="Digite o ID da fazenda" required>
+                    </div>
+                </div>
+
+                <div id="esp_portao-fields" class="form-section" style="display:none;">
+                    <label for="esp_portaoid">ESP Portão ID:</label>
+                    <input type="text" id="esp_portaoid" name="esp_portaoid" placeholder="Digite o ID do ESP Portão" required>
+                </div>
+
+                <button type="submit" class="btn-registrar">Registrar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
