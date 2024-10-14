@@ -13,7 +13,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "postgres"
+DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
@@ -30,6 +30,7 @@ def admin_required(f):
 
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
+@app.route("/home")
 def index():
     return render_template("home/home.html")
 
@@ -39,7 +40,7 @@ def login():
     if request.method == "POST":
         cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         email = request.form["email"]
-        senha = request.form["senha"]
+        senha = request.form["password"]
         try:
             cursor.execute("SELECT * FROM usuario WHERE Email = %s AND Senha = %s", (email, senha))
             usuario = cursor.fetchone()
