@@ -15,7 +15,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
+DB_PASS = "postgres" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 # CONEXÃO COM BANCO DE DADOS
@@ -86,6 +86,21 @@ def index():
         return render_template("home/home.html", usuario_tipo=usuario_tipo)
     else:
         return redirect(url_for("login"))
+
+# ROTA DA PÁGINA COTAR
+@app.route("/cotar")
+def cotar():
+    return render_template("others/cotar.html")
+
+# ROTA DA PÁGINA SOBRE NOS
+@app.route("/sobre-nos")
+def sobre_nos():
+    return render_template("others/sobre-nos.html")
+
+# ROTA DA PÁGINA FAQ
+@app.route("/faq")
+def faq():
+    return render_template("others/faq.html")
 
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
