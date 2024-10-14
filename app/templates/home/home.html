@@ -32,7 +32,12 @@
           <li><a href="/cotar">Cotar</a></li>
           <li><a href="/faq">FAQ</a></li>
         </ul>
+
+        {% if usuario_tipo == 'admin' %}
+        <a href="/perfil" class="btn-area-cliente">Área do Admin</a>
+        {% else %}
         <a href="/perfil" class="btn-area-cliente">Área do Cliente</a>
+        {% endif %}
       </nav>
     </header>
 
