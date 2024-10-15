@@ -120,6 +120,43 @@ nav ul.menu li a {
   border-radius: 16px;
 }
 
+.form-adicionar {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e1e1e1;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-adicionar label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #3b2110;
+}
+
+.form-adicionar input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+}
+
+.form-adicionar button {
+  background-color: #94b40b;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-adicionar button:hover {
+  background-color: #7a9c0a;
+}
+
 /* Responsdiadvde */
 @media (max-width: 768px) {
   .admin-actions {

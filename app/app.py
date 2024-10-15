@@ -15,7 +15,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
+DB_PASS = "postgres" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 # CONEXÃO COM BANCO DE DADOS
@@ -116,6 +116,16 @@ def editar_sensores():
 @admin_required
 def editar_atuadores():
     return render_template("admin/editar_atuadores.html")
+
+# ROTA ADICIONAR SENSORES
+@app.route("/adicionar_sensores")
+def add_sensores():
+    return render_template("admin/adicionar_sensores.html")
+
+# ROTA ADICIONAR ATUADORES
+@app.route("/adicionar_atuadores")
+def add_atuadores():
+    return render_template("admin/adicionar_atuadores.html")
 
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
@@ -226,6 +236,8 @@ def gerencia_usuario():
     except Exception as e:
         print(f"Erro ao recuperar usuários: {e}")
     return redirect(url_for("index"))
+
+
 
 # EDITA USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
