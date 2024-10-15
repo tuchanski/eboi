@@ -117,6 +117,18 @@ def editar_sensores():
 def editar_atuadores():
     return render_template("admin/editar_atuadores.html")
 
+# ROTA ADICIONAR SENSORES
+@app.route("/adicionar_sensores")
+@admin_required
+def add_sensores():
+    return render_template("admin/adicionar_sensores.html")
+
+# ROTA ADICIONAR ATUADORES
+@app.route("/adicionar_atuadores")
+@admin_required
+def add_atuadores():
+    return render_template("admin/adicionar_atuadores.html")
+
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
 def login():
