@@ -1,29 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBoi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alert alert-dismissible fade show" role="alert">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        
-        {% block content %}
-        {% endblock %}
-    </div>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}eBoi{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-home.css') }}"
+    />
+    <script>
+      function showLoginSuccess(message) {
+        if (message) {
+          alert(message);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"
+            ><img
+              src="{{ url_for('static', filename='images/logoeboi.png') }}"
+              alt="Logo eBoi"
+          /></a>
+        </div>
+        <ul class="menu">
+          <li><a href="/">Início</a></li>
+          <li><a href="/sobre-nos">Sobre nós</a></li>
+          <li><a href="/cotar">Cotar</a></li>
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+        {% if usuario_tipo == 'admin' %}
+        <a href="/admin" class="btn-area-cliente">Área do Admin</a>
+        {% else %}
+        <a href="/perfil" class="btn-area-cliente">Área do Cliente</a>
+        {% endif %}
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Flash messages -->
+    {% block flash_messages %}
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      // Exibe a mensagem de sucesso, se houver
+      showLoginSuccess("{{ messages[0] }}");
+    </script>
+    {% endif %} {% endwith %}
+    {% endblock %}
+  </body>
 </html>
