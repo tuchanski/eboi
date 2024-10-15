@@ -211,7 +211,7 @@ def registrar_usuario():
             return redirect(url_for("index"))
     return render_template("admin/register_user.html")
 
-
+# GERENCIA OPERAÇÕES DE DELETE E EDIT DE USUÁRIOS REGISTRADOS NO BANCO
 @app.route("/gerencia_usuario", methods=["POST", "GET"])
 @admin_required
 def gerencia_usuario():
@@ -226,6 +226,9 @@ def gerencia_usuario():
     except Exception as e:
         print(f"Erro ao recuperar usuários: {e}")
     return redirect(url_for("index"))
+
+
+
 
 # EDITA USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
