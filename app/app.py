@@ -162,6 +162,57 @@ def deletar_sensor(tipo, id):
 def editar_sensores():
     return render_template("admin/editar_sensores.html")
 
+# GERENCIA ATUADORES DO BANCO
+@app.route("/gerencia_atuador", methods=["POST", "GET"])
+@admin_required
+def gerencia_atuadores():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        query = """
+        SELECT 'LED' AS tipo, id FROM LED
+        UNION ALL
+        SELECT 'Buzzer' AS tipo, id FROM Buzzer
+        UNION ALL
+        SELECT 'ESP_GPS' AS tipo, id FROM ESP_Gps;
+        """
+        cursor.execute(query)
+        atuadores = cursor.fetchall()
+        if not atuadores:
+            flash("Atuadores não encontrados.", "danger")
+            return redirect(url_for("index"))
+        return render_template("/admin/manage_actuator.html", data=atuadores)
+    except Exception as e:
+        print(f"Erro ao recuperar atuadores: {e}")
+    return redirect(url_for("index"))
+
+# DELETA ATUADORES DO BANCO
+@app.route("/deletar_atuador/<string:tipo>/<int:id>", methods=["POST", "GET"])
+@admin_required
+def deletar_atuador(tipo, id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        if tipo == "LED":
+            cursor.execute("DELETE FROM LED WHERE id = %s", (id,))
+        elif tipo == "Buzzer":
+            cursor.execute("DELETE FROM Buzzer WHERE id = %s", (id,))
+        elif tipo == "ESP_GPS":
+            cursor.execute("DELETE FROM ESP_Gps WHERE id = %s", (id,))
+        else:
+            flash("Tipo de atuador inválido.", "danger")
+            return redirect(url_for("gerencia_atuadores"))
+
+        if cursor.rowcount > 0:
+            conn.commit()
+            flash("Atuador deletado com sucesso!", "warning")
+        else:
+            flash("Atuador não encontrado.", "danger")
+            conn.rollback()
+
+    except Exception as e:
+        flash(f"Erro ao deletar atuador: {e}", "danger")
+        conn.rollback()
+    return redirect(url_for("gerencia_atuadores"))
+
 # ROTA EDITAR ATUADOERS
 @app.route("/editar_atuadores")
 @admin_required
