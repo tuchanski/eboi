@@ -105,6 +105,57 @@ def sobre_nos():
 def faq():
     return render_template("others/faq.html")
 
+# GERENCIA SENSORES DO BANCO
+@app.route("/gerencia_sensor", methods=["POST", "GET"])
+@admin_required
+def gerencia_sensores():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        query = """
+        SELECT 'Sensor_Posicao' AS tipo, id, esp_gpsid FROM Sensor_Posicao
+        UNION ALL
+        SELECT 'Sensor_Distancia' AS tipo, id, esp_portaoid FROM Sensor_Distancia
+        UNION ALL
+        SELECT 'Sensor_Temperatura' AS tipo, id, esp_portaoid FROM Sensor_Temperatura;
+        """
+        cursor.execute(query)
+        sensores = cursor.fetchall()
+        if not sensores:
+            flash("Sensores não encontrados.", "danger")
+            return redirect(url_for("index"))
+        return render_template("/admin/manage_sensor.html", data=sensores)
+    except Exception as e:
+        print(f"Erro ao recuperar sensores: {e}")
+    return redirect(url_for("index"))
+
+# DELETA SENSORES DO BANCO
+@app.route("/deletar_sensor/<string:tipo>/<int:id>", methods=["POST", "GET"])
+@admin_required
+def deletar_sensor(tipo, id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        if tipo == "Sensor_Posicao":
+            cursor.execute("DELETE FROM Sensor_Posicao WHERE id = %s", (id,))
+        elif tipo == "Sensor_Distancia":
+            cursor.execute("DELETE FROM Sensor_Distancia WHERE id = %s", (id,))
+        elif tipo == "Sensor_Temperatura":
+            cursor.execute("DELETE FROM Sensor_Temperatura WHERE id = %s", (id,))
+        else:
+            flash("Tipo de sensor inválido.", "danger")
+            return redirect(url_for("gerencia_sensores"))
+
+        if cursor.rowcount > 0:
+            conn.commit()
+            flash("Sensor deletado com sucesso!", "warning")
+        else:
+            flash("Sensor não encontrado.", "danger")
+            conn.rollback()
+
+    except Exception as e:
+        flash(f"Erro ao deletar sensor: {e}", "danger")
+        conn.rollback()
+    return redirect(url_for("gerencia_sensores"))
+
 # ROTA EDITAR SENSORES
 @app.route("/editar_sensores")
 @admin_required
@@ -155,7 +206,6 @@ def login():
     return render_template("auth/login.html")
 
 # TELA DO PERFIL DO USUÁRIO
-
 @app.route("/perfil")
 @login_required
 def perfil():
@@ -238,9 +288,6 @@ def gerencia_usuario():
     except Exception as e:
         print(f"Erro ao recuperar usuários: {e}")
     return redirect(url_for("index"))
-
-
-
 
 # EDITA USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
