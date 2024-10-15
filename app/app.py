@@ -208,7 +208,24 @@ def registrar_usuario():
             print(f"Erro ao registrar usuário: {e}")
             conn.rollback()
             flash("Erro ao registrar usuário.", "danger")
+            return redirect(url_for("index"))
     return render_template("admin/register_user.html")
+
+
+@app.route("/gerencia_usuario", methods=["POST", "GET"])
+@admin_required
+def gerencia_usuario():
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("SELECT * FROM usuario")
+        usuarios = cursor.fetchall()
+        if not usuarios:
+            flash("Usuários não encontrados.", "danger")
+            return redirect(url_for("index"))
+        return render_template("/admin/manage_user.html", data=usuarios)
+    except Exception as e:
+        print(f"Erro ao recuperar usuários: {e}")
+    return redirect(url_for("index"))
 
 # EDITA USUÁRIO NO BANCO
 @app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
