@@ -1,70 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Painel de Administração | eBoi</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style-admin.css') }}"
-    />
-  </head>
-  <body>
-    <header>
-      <nav class="navbar">
-        <div class="logo">
-          <a href="/"
-            ><img
-              src="{{ url_for('static', filename='images/logoeboiadmin.png') }}"
-              alt="Logo eBoi"
-          /></a>
-        </div>
-        <ul class="menu">
-          <li><a href="/">Home</a></li>
-        </ul>
-        <a href="/logout" class="btn-area-cliente">Sair</a>
-      </nav>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-      <section class="hero-admin">
-        <div class="content-admin">
-          <h1>Painel de Administração</h1>
-          <p>Gerencie usuários e dispositivos a partir desta página.</p>
-        </div>
-        <div class="admin-actions">
-          <div class="action-card">
-            <h2>Registrar Usuário</h2>
-            <p>Adicione um novo usuário ao sistema.</p>
-            <a href="/registrar_usuario" class="btn-cotar">Registrar</a>
-          </div>
-          <div class="action-card">
-            <h2>Registrar Dispositivo</h2>
-            <p>Adicione um novo dispositivo ao sistema.</p>
-            <a href="/registrar_dispositivos" class="btn-cotar">Registrar</a>
-          </div>
-          <div class="action-card">
-            <h2>Editar/Excluir Usuário</h2>
-            <p>Atualize ou exclua as informações de um usuário existente.</p>
-            <a href="/gerencia_usuario" class="btn-cotar">Editar</a>
-          </div>
-          <div class="action-card">
-            <h2>Recuperar Usuários</h2>
-            <p>Recuperar informações dos</p>
-            <a href="/recuperar_usuarios" class="btn-cotar">Recuperar</a>
-          </div>
-          <div class="action-card">
-            <h2>Editar atuadores</h2>
-            <p>Editar atuadores</p>
-            <a href="/gerencia_atuador" class="btn-cotar">Editar</a>
-          </div>
-          <div class="action-card">
-            <h2>Editar sensores</h2>
-            <p>Editar sensores</p>
-            <a href="/gerencia_sensor" class="btn-cotar">Editar</a>
-          </div>
-        </div>
-      </section>
-    </main>
-  </body>
-</html>
+{% block title %}Painel de Administração | eBoi{% endblock %}
+
+{% block content %}
+<main>
+  <section class="hero-admin">
+    <div class="content-admin">
+      <h1>Painel de Administração</h1>
+      <p>Gerencie usuários e dispositivos a partir desta página.</p>
+    </div>
+    <div class="admin-actions">
+      <div class="action-card">
+        <h2>Registrar Usuário</h2>
+        <p>Adicione um novo usuário ao sistema.</p>
+        <a href="/registrar_usuario" class="btn-cotar">Registrar</a>
+      </div>
+      <div class="action-card">
+        <h2>Registrar Dispositivo</h2>
+        <p>Adicione um novo dispositivo ao sistema.</p>
+        <a href="/registrar_dispositivos" class="btn-cotar">Registrar</a>
+      </div>
+      <div class="action-card">
+        <h2>Editar/Excluir Usuário</h2>
+        <p>Atualize ou exclua as informações de um usuário existente.</p>
+        <a href="/gerencia_usuario" class="btn-cotar">Editar</a>
+      </div>
+      <div class="action-card">
+        <h2>Recuperar Usuários</h2>
+        <p>Recuperar informações dos</p>
+        <a href="/recuperar_usuarios" class="btn-cotar">Recuperar</a>
+      </div>
+      <div class="action-card">
+        <h2>Editar atuadores</h2>
+        <p>Editar atuadores</p>
+        <a href="/gerencia_atuador" class="btn-cotar">Editar</a>
+      </div>
+      <div class="action-card">
+        <h2>Editar sensores</h2>
+        <p>Editar sensores</p>
+        <a href="/gerencia_sensor" class="btn-cotar">Editar</a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
