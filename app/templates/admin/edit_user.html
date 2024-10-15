@@ -34,7 +34,7 @@
         <div class="edicao-right">
             <h1>Editar Usuário</h1>
             <p class="subtitle">Atualize os dados abaixo:</p>
-            <form method="POST" action="{{ url_for('editar_usuario', id=id) }}"">
+            <form method="POST" action="{{ url_for('editar_usuario', id=usuario.id) }}">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="Insira o nome" value="{{ usuario.Nome }}" required>
                 
@@ -52,11 +52,5 @@
         </div>
     </div>
 
-    <!-- <form method="POST" action="{{ url_for('editar_usuario', id=id) }}">
-        <p>Nome: <input type="text"  name="nome" id="nome" required></p>
-        <p>E-mail: <input type="email"  name="email" id="email" required></p>
-        <p>Senha: <input type="password"  name="senha" id="senha" required></p>
-        <p><input type="submit" value="Enviar"></p>
-    </form> -->
 </body>
 </html>

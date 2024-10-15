@@ -15,7 +15,7 @@ app.secret_key = os.urandom(24)
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "postgres" # MUDE CONFORME A SUA MÁQUINA
+DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
 DB_PORT = "5432"
 
 # CONEXÃO COM BANCO DE DADOS
@@ -58,7 +58,7 @@ mqtt_thread.start()
 
 # -- FIM DA SESSÃO GERAL DO MQTT --
 
-# VERIFICA SE USUÁRIO É ADMINISTRADOR OU NÃO. CASO NÃO SEJA/NÃO ESTEJA LOGADO, REDIRECIONA P/ HOME.
+# VERIFICA SE USUÁRIO É ADMINISTRADOR OU NÃO
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -68,6 +68,7 @@ def admin_required(f):
         return f(*args, **kwargs)
     return wrap
 
+# VERIFICA SE USUÁRIO ESTÁ LOGADO
 def login_required(f):
     @wraps(f)
     def wrap2(*args, **kwargs):
@@ -88,26 +89,31 @@ def index():
 
 # ROTA DA PÁGINA COTAR
 @app.route("/cotar")
+@login_required
 def cotar():
     return render_template("others/cotar.html")
 
 # ROTA DA PÁGINA SOBRE NOS
 @app.route("/sobre-nos")
+@login_required
 def sobre_nos():
     return render_template("others/sobre-nos.html")
 
 # ROTA DA PÁGINA FAQ
 @app.route("/faq")
+@login_required
 def faq():
     return render_template("others/faq.html")
 
 # ROTA EDITAR SENSORES
 @app.route("/editar_sensores")
+@admin_required
 def editar_sensores():
     return render_template("admin/editar_sensores.html")
 
 # ROTA EDITAR ATUADOERS
 @app.route("/editar_atuadores")
+@admin_required
 def editar_atuadores():
     return render_template("admin/editar_atuadores.html")
 
@@ -158,9 +164,8 @@ def logout():
     flash("Você saiu da sua conta.", "info")
     return redirect(url_for("login"))
 
-
 @app.route("/admin")
-# @admin_required
+@admin_required
 def admin():
     return render_template("admin/admin.html")
 
@@ -169,7 +174,7 @@ def admin():
 
 # 1. CRUD DE USUÁRIO ->
 
-# RECUPERA OS USUÁRIOS E CONTÉM ATALHOS PARA EDITAR E EXCLUIR
+# RECUPERA OS USUÁRIOS
 @app.route("/recuperar_usuarios", methods=["GET"])
 @admin_required
 def recuperar_usuarios():
@@ -205,15 +210,14 @@ def registrar_usuario():
             flash("Erro ao registrar usuário.", "danger")
     return render_template("admin/register_user.html")
 
-# EDITAR E DELETAR USUÁRIO NO BANCO
-@app.route("/gerenciar_usuario/<int:id>", methods=["POST", "GET"])
+# EDITA USUÁRIO NO BANCO
+@app.route("/editar_usuario/<int:id>", methods=["POST", "GET"])
 @admin_required
-def gerenciar_usuario(id):
+def editar_usuario(id):
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
         cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
         usuario = cursor.fetchone()
-
         if not usuario:
             flash("Usuário não encontrado.", "danger")
             return redirect(url_for("index"))
@@ -221,34 +225,38 @@ def gerenciar_usuario(id):
         flash(f"Erro ao buscar usuário: {e}", "danger")
         conn.rollback()
         return redirect(url_for("index"))
-
+    
     if request.method == "POST":
-        if 'editar' in request.form:
-            nome = request.form.get("nome")
-            email = request.form.get("email")
-            senha = request.form.get("senha")
-            try:
-                cursor.execute(
-                    "UPDATE usuario SET Nome = %s, Email = %s, Senha = %s WHERE id = %s",
-                    (nome, email, senha, id)
-                )
-                conn.commit()
-                flash("Dados do usuário atualizados com sucesso!", "success")
-            except Exception as e:
-                print(f"Erro ao atualizar usuário: {e}")
-                conn.rollback()
-                flash("Erro ao atualizar usuário.", "danger")
-        elif 'deletar' in request.form:
-            try:
-                cursor.execute("DELETE FROM usuario WHERE id = %s", (id,))
-                conn.commit()
-                flash("Usuário deletado com sucesso!", "warning")
-                return redirect(url_for("index"))
-            except Exception as e:
-                flash(f"Erro ao deletar usuário: {e}", "danger")
-                conn.rollback()
+        nome = request.form.get("nome")
+        email = request.form.get("email")
+        senha = request.form.get("senha")
 
-    return render_template("admin/manage_user.html", usuario=usuario)
+    try:
+        cursor.execute(
+            "UPDATE usuario SET Nome = %s, Email = %s, Senha = %s WHERE id = %s",
+            (nome, email, senha, id)
+        )
+        conn.commit()
+        flash("Dados do usuário atualizados com sucesso!", "success")
+    except Exception as e:
+        print(f"Erro ao atualizar usuário: {e}")
+        conn.rollback()
+    
+    return render_template("admin/edit_user.html", usuario=usuario)
+
+# DELETA USUÁRIO NO BANCO
+@app.route("/deletar_usuario/<int:id>", methods=["POST", "GET"])
+@admin_required
+def deletar_usuario(id):
+    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    try:
+        cursor.execute("DELETE FROM usuario WHERE id = %s", (id,))
+        conn.commit()
+        flash("Usuário deletado com sucesso!", "warning")
+        return redirect(url_for("index"))
+    except Exception as e:
+        flash(f"Erro ao deletar usuário: {e}", "danger")
+        conn.rollback()
 
 # 2. REGISTROS DE SENSOR/ATUADOR ->
 @app.route("/registrar_dispositivos", methods=["GET", "POST"])
