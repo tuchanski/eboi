@@ -2,61 +2,21 @@
 
 from functools import wraps
 from flask import Flask, render_template, request, flash, redirect, url_for, session
+from config import db
+from config import mqtt as mqtt_package
 import psycopg2
 import psycopg2.extras
 import os
 import paho.mqtt.client as mqtt
-import threading
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# INFORMAÇÕES DE CONEXÃO COM BANCO Postgresql
-DB_HOST = "localhost"
-DB_NAME = "eBoi"
-DB_USER  = "postgres"
-DB_PASS = "root" # MUDE CONFORME A SUA MÁQUINA
-DB_PORT = "5432"
-
 # CONEXÃO COM BANCO DE DADOS
-conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
-
-# -- GERAL DO MQTT --
-
-# CONFIGURAÇÕES MQTT
-MQTT_BROKER = 'broker.hivemq.com'
-MQTT_PORT = 1883
-MQTT_TOPIC_DATA = 'wokwi/data'
-MQTT_TOPIC_COMMAND = 'wokwi/command'
-
-# ÚLTIMA MENSAGEM RECEBIDA PELO MQTT
-mqtt_message = None
-
-# CALLBACK QUANDO SE CONECTA NO MQTT BROKER
-def on_connect(client, userdata, flags, rc):
-    print(f"Conectado ao MQTT Broker com código: {rc}")
-    client.subscribe(MQTT_TOPIC_DATA)
-
-# CALLBACK PRA TRATAR MENSAGENS RECEBIDAS
-def on_message(client, userdata, msg):
-    global mqtt_message
-    mqtt_message = msg.payload.decode()
-    print(f"Mensagem recebida: {mqtt_message}")
-
-# INICIALIZA CLIENTE MQTT EM UMA THREAD SEPARADA
-def init_mqtt():
-    client = mqtt.Client()
-    client.on_connect = on_connect
-    client.on_message = on_message
-    client.connect(MQTT_BROKER, MQTT_PORT, 60)
-    client.loop_forever()
+conn = db.get_connection()
 
 # INICIALIZA A THREAD QND O APP FLASK INICIAR
-mqtt_thread = threading.Thread(target=init_mqtt)
-mqtt_thread.daemon = True
-mqtt_thread.start()
-
-# -- FIM DA SESSÃO GERAL DO MQTT --
+mqtt_thread = mqtt_package.start_thread()
 
 # VERIFICA SE USUÁRIO É ADMINISTRADOR OU NÃO
 def admin_required(f):
@@ -439,7 +399,7 @@ def registrar_dispositivos():
 @login_required
 def dados_tempo_real():
     global mqtt_message
-    return render_template("mqtt/dados_tempo_real.html", message=mqtt_message)
+    return render_template("mqtt/dados_tempo_real.html", message=mqtt_package.mqtt_message)
 
 # ROTA PRA ENVIAR COMANDOS VIA MQTT
 @app.route("/comando-remoto", methods=["GET", "POST"])
@@ -448,8 +408,8 @@ def comando_remoto():
     if request.method == "POST":
         comando = request.form["comando"]
         client = mqtt.Client()
-        client.connect(MQTT_BROKER, MQTT_PORT, 60)
-        client.publish(MQTT_TOPIC_COMMAND, comando)
+        client.connect(mqtt_package.MQTT_BROKER, mqtt_package.MQTT_PORT, 60)
+        client.publish(mqtt_package.MQTT_TOPIC_COMMAND, comando)
         flash(f"Comando '{comando}' enviado com sucesso!", "success")
     return render_template("mqtt/comando_remoto.html")
 
