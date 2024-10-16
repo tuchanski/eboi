@@ -1,24 +1,21 @@
-# Instale o driver para comunicação com o Postgresql pip install psycopg2
-
-from functools import wraps
 from flask import Flask, render_template, request, flash, redirect, url_for, session
+from functools import wraps
 from config import db
 from config import mqtt as mqtt_package
+import paho.mqtt.client as mqtt
 import psycopg2
 import psycopg2.extras
 import os
-import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# CONEXÃO COM BANCO DE DADOS
 conn = db.get_connection()
-
-# INICIALIZA A THREAD QND O APP FLASK INICIAR
 mqtt_thread = mqtt_package.start_thread()
 
-# VERIFICA SE USUÁRIO É ADMINISTRADOR OU NÃO
+# -----------------------------------
+
+# DECORATIVOS
 def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -28,7 +25,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return wrap
 
-# VERIFICA SE USUÁRIO ESTÁ LOGADO
 def login_required(f):
     @wraps(f)
     def wrap2(*args, **kwargs):
@@ -38,6 +34,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return wrap2
 
+# -----------------------------------
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
 def index():
