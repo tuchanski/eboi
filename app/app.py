@@ -26,8 +26,8 @@ conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_
 # CONFIGURAÇÕES MQTT
 MQTT_BROKER = 'broker.hivemq.com'
 MQTT_PORT = 1883
-MQTT_TOPIC_DATA = 'eboi/data'
-MQTT_TOPIC_COMMAND = 'eboi/command'
+MQTT_TOPIC_DATA = 'wokwi/data'
+MQTT_TOPIC_COMMAND = 'wokwi/command'
 
 # ÚLTIMA MENSAGEM RECEBIDA PELO MQTT
 mqtt_message = None
@@ -77,26 +77,6 @@ def login_required(f):
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return wrap2
-
-# ROTA PARA VISUALIZAÇÃO DOS DADOS EM TEMPO REAL (PERMITIDO ADM E USUÁRIO NORMAL)
-@app.route("/dados-tempo-real")
-@login_required
-def dados_tempo_real():
-    global mqtt_message
-    return render_template("mqtt/dados_tempo_real.html", message=mqtt_message)
-
-# ROTA PRA ENVIAR COMANDOS VIA MQTT
-@app.route("/comando-remoto", methods=["GET", "POST"])
-@login_required
-def comando_remoto():
-    if request.method == "POST":
-        comando = request.form["comando"]
-        client = mqtt.Client()
-        client.connect(MQTT_BROKER, MQTT_PORT, 60)
-        client.publish(MQTT_TOPIC_COMMAND, comando)
-        flash(f"Comando enviado com sucesso!", "success")
-        return redirect(url_for("comando_remoto"))
-    return render_template("mqtt/comando_remoto.html")
 
 # ROTA DA PÁGINA INICIAL
 @app.route("/")
@@ -415,7 +395,7 @@ def registrar_dispositivos():
     if request.method == "POST":
         cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         dispositivo = request.form["dispositivo"]
-        esp_portao_id = request.form["esp_portaoid"]
+        esp_portao_id = request.form.get("esp_portaoid")
         localizacao = request.form.get("localizacao")
         data_instalacao = request.form.get("data_instalacao")
         fazenda_id = request.form.get("fazendaid")
@@ -453,6 +433,25 @@ def registrar_dispositivos():
             conn.rollback()
             flash(f"Erro ao registrar {dispositivo}: {e}", "danger")
     return render_template("admin/register_dispositivos.html")
+
+# ROTA PARA VISUALIZAÇÃO DOS DADOS EM TEMPO REAL (PERMITIDO ADM E USUÁRIO NORMAL)
+@app.route("/dados-tempo-real")
+@login_required
+def dados_tempo_real():
+    global mqtt_message
+    return render_template("mqtt/dados_tempo_real.html", message=mqtt_message)
+
+# ROTA PRA ENVIAR COMANDOS VIA MQTT
+@app.route("/comando-remoto", methods=["GET", "POST"])
+@login_required
+def comando_remoto():
+    if request.method == "POST":
+        comando = request.form["comando"]
+        client = mqtt.Client()
+        client.connect(MQTT_BROKER, MQTT_PORT, 60)
+        client.publish(MQTT_TOPIC_COMMAND, comando)
+        flash(f"Comando '{comando}' enviado com sucesso!", "success")
+    return render_template("mqtt/comando_remoto.html")
 
 # -----------------------------------
             
