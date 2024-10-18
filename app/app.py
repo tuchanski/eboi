@@ -85,6 +85,8 @@ def gerencia_sensores():
         return render_template("/admin/manage_sensor.html", data=sensores)
     except Exception as e:
         print(f"Erro ao recuperar sensores: {e}")
+    finally:
+        cursor.close()
     return redirect(url_for("index"))
 
 # DELETA SENSORES DO BANCO
@@ -109,10 +111,11 @@ def deletar_sensor(tipo, id):
         else:
             flash("Sensor não encontrado.", "danger")
             conn.rollback()
-
     except Exception as e:
         flash(f"Erro ao deletar sensor: {e}", "danger")
         conn.rollback()
+    finally:
+        cursor.close()
     return redirect(url_for("gerencia_sensores"))
 
 # ROTA EDITAR SENSORES
@@ -142,6 +145,8 @@ def gerencia_atuadores():
         return render_template("/admin/manage_actuator.html", data=atuadores)
     except Exception as e:
         print(f"Erro ao recuperar atuadores: {e}")
+    finally:
+        cursor.close()
     return redirect(url_for("index"))
 
 # DELETA ATUADORES DO BANCO
@@ -170,6 +175,8 @@ def deletar_atuador(tipo, id):
     except Exception as e:
         flash(f"Erro ao deletar atuador: {e}", "danger")
         conn.rollback()
+    finally:
+        cursor.close()
     return redirect(url_for("gerencia_atuadores"))
 
 # ROTA EDITAR ATUADOERS
@@ -213,6 +220,8 @@ def login():
         except Exception as e:
             flash(f"Erro ao buscar usuário: {e}", "danger")
             return redirect(url_for("login"))
+        finally:
+            cursor.close()
     return render_template("auth/login.html")
 
 # TELA DO PERFIL DO USUÁRIO
@@ -227,6 +236,8 @@ def perfil():
         return render_template("profile/perfil.html", usuario=usuario)
     except Exception as e:
         print(f"Erro ao recuperar usuário: {e}")
+    finally:
+        cursor.close()
     return redirect(url_for("index"))
 
 # ROTA PARA LOGOUT
@@ -260,6 +271,8 @@ def recuperar_usuarios():
         return render_template("/admin/get_users.html", data=usuarios)
     except Exception as e:
         print(f"Erro ao recuperar usuários: {e}")
+    finally:
+        cursor.close()
     return redirect(url_for("index"))
 
 # REGISTRAR O USUÁRIO NO BANCO
@@ -281,6 +294,8 @@ def registrar_usuario():
             conn.rollback()
             flash("Erro ao registrar usuário.", "danger")
             return redirect(url_for("index"))
+        finally:
+            cursor.close()
     return render_template("admin/register_user.html")
 
 # GERENCIA OPERAÇÕES DE DELETE E EDIT DE USUÁRIOS REGISTRADOS NO BANCO
@@ -297,6 +312,8 @@ def gerencia_usuario():
         return render_template("/admin/manage_user.html", data=usuarios)
     except Exception as e:
         print(f"Erro ao recuperar usuários: {e}")
+    finally:
+        cursor.close()
     return redirect(url_for("index"))
 
 # EDITA USUÁRIO NO BANCO
@@ -314,6 +331,8 @@ def editar_usuario(id):
         flash(f"Erro ao buscar usuário: {e}", "danger")
         conn.rollback()
         return redirect(url_for("index"))
+    finally:
+        cursor.close()
     
     if request.method == "POST":
         nome = request.form.get("nome")
@@ -330,6 +349,8 @@ def editar_usuario(id):
     except Exception as e:
         print(f"Erro ao atualizar usuário: {e}")
         conn.rollback()
+    finally:
+        cursor.close()
     
     return render_template("admin/edit_user.html", usuario=usuario)
 
@@ -346,6 +367,8 @@ def deletar_usuario(id):
     except Exception as e:
         flash(f"Erro ao deletar usuário: {e}", "danger")
         conn.rollback()
+    finally:
+        cursor.close()
 
 # 2. REGISTROS DE SENSOR/ATUADOR ->
 @app.route("/registrar_dispositivos", methods=["GET", "POST"])
@@ -391,6 +414,8 @@ def registrar_dispositivos():
         except Exception as e:
             conn.rollback()
             flash(f"Erro ao registrar {dispositivo}: {e}", "danger")
+        finally:
+            cursor.close()
     return render_template("admin/register_dispositivos.html")
 
 # ROTA PARA VISUALIZAÇÃO DOS DADOS EM TEMPO REAL (PERMITIDO ADM E USUÁRIO NORMAL)
