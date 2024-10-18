@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+import os
 from functools import wraps
-from config import db
-from config import mqtt as mqtt_package
-import paho.mqtt.client as mqtt
+
 import psycopg2
 import psycopg2.extras
-import os
+import paho.mqtt.client as mqtt_client
+
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from config import db
+from config import mqtt as mqtt_package
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -404,7 +406,7 @@ def dados_tempo_real():
 def comando_remoto():
     if request.method == "POST":
         comando = request.form["comando"]
-        client = mqtt.Client()
+        client = mqtt_client.Client()
         client.connect(mqtt_package.MQTT_BROKER, mqtt_package.MQTT_PORT, 60)
         client.publish(mqtt_package.MQTT_TOPIC_COMMAND, comando)
         flash(f"Comando '{comando}' enviado com sucesso!", "success")
