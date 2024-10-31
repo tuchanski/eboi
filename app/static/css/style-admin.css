@@ -59,6 +59,19 @@ nav ul.menu li a {
   border-radius: 16px;
 }
 
+.btn-logout {
+  display: inline-block;
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  margin-left: 26px;
+}
+
 /* Hero Section for Admin */
 .hero-admin {
   max-width: 1200px;
