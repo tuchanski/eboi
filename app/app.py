@@ -50,19 +50,22 @@ def index():
 @app.route("/cotar")
 @login_required
 def cotar():
-    return render_template("others/cotar.html")
+    usuario_tipo = session.get('usuario_tipo')
+    return render_template("others/cotar.html", usuario_tipo=usuario_tipo)
 
 # ROTA DA PÁGINA SOBRE NOS
 @app.route("/sobre-nos")
 @login_required
 def sobre_nos():
-    return render_template("others/sobre-nos.html")
+    usuario_tipo = session.get('usuario_tipo')
+    return render_template("others/sobre-nos.html", usuario_tipo=usuario_tipo)
 
 # ROTA DA PÁGINA FAQ
 @app.route("/faq")
 @login_required
 def faq():
-    return render_template("others/faq.html")
+    usuario_tipo = session.get('usuario_tipo')
+    return render_template("others/faq.html", usuario_tipo=usuario_tipo)
 
 # GERENCIA SENSORES DO BANCO
 @app.route("/gerencia_sensor", methods=["POST", "GET"])
