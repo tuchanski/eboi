@@ -1,0 +1,26 @@
+{% extends "admin/add/sensores_base.html" %} {% block title %}Adicionar Sensores
+| eBoi{% endblock %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/style-sensor-atuador.css') }}"
+/>
+{% endblock %} {% block content %}
+<section class="hero-admin">
+  <div class="content-admin">
+    <h1>Adicionar Sensores</h1>
+    <p>Preencha as informações do sensor abaixo:</p>
+  </div>
+  <form action="/salvar_sensor" method="POST" class="form-adicionar">
+    <label for="nome">Nome do Sensor:</label>
+    <input type="text" id="nome" name="nome" required />
+
+    <label for="tipo">Tipo de Sensor:</label>
+    <input type="text" id="tipo" name="tipo" required />
+
+    <label for="localizacao">Localização:</label>
+    <input type="text" id="localizacao" name="localizacao" required />
+
+    <button type="submit" class="btn-cotar">Adicionar Sensor</button>
+  </form>
+</section>
+{% endblock %}

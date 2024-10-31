@@ -1,0 +1,19 @@
+{% extends "admin/edit/sensores_base.html" %} {% block title %}Editar Sensor{%
+endblock %} {% block header %}Editar Atuador{% endblock %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/style-sensor-atuador.css') }}"
+/>
+<form method="POST">
+  <label for="nome">Nome do Sensor:</label>
+  <input type="text" name="nome" id="nome" required />
+
+  <label for="tipo">Tipo de Sensor:</label>
+  <input type="text" name="tipo" id="tipo" required />
+
+  <label for="valor">Valor Atual:</label>
+  <input type="text" name="valor" id="valor" required />
+
+  <button class="btn-cotar" type="submit">Salvar Alterações</button>
+</form>
+{% endblock %}

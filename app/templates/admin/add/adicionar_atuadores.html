@@ -1,0 +1,26 @@
+{% extends "admin/add/atuadores_base.html" %} {% block title %}Adicionar
+Atuadores | eBoi{% endblock %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/style-sensor-atuador.css') }}"
+/>
+{% endblock %} {% block content %}
+<section class="hero-admin">
+  <div class="content-admin">
+    <h1>Adicionar Atuadores</h1>
+    <p>Preencha as informações do atuador abaixo:</p>
+  </div>
+  <form action="/salvar_atuador" method="POST" class="form-adicionar">
+    <label for="nome">Nome do Atuador:</label>
+    <input type="text" id="nome" name="nome" required />
+
+    <label for="tipo">Tipo de Atuador:</label>
+    <input type="text" id="tipo" name="tipo" required />
+
+    <label for="localizacao">Localização:</label>
+    <input type="text" id="localizacao" name="localizacao" required />
+
+    <button type="submit" class="btn-cotar">Adicionar Atuador</button>
+  </form>
+</section>
+{% endblock %}

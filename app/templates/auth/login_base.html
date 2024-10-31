@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Login | eBoi{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-login.css') }}"
+    />
+    <script>
+      window.onload = function () {
+        var flashMessage =
+          document.getElementById("flash-message").dataset.message;
+        var flashCategory =
+          document.getElementById("flash-message").dataset.category;
+
+        if (flashMessage) {
+          alert(flashMessage);
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <!-- Elemento de mensagem flash -->
+    <div
+      id="flash-message"
+      data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}"
+      data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
+    ></div>
+
+    <!-- Logo e link para página inicial -->
+    <a href="/">
+      <img
+        src="{{ url_for('static', filename='images/logoeboi.png') }}"
+        alt="Logo eBoi"
+        class="logo"
+      />
+    </a>
+
+    <!-- Conteúdo da página específico -->
+    <div class="container">{% block content %}{% endblock %}</div>
+  </body>
+</html>

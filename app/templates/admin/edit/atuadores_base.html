@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}eBoi{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-sensor-atuador.css') }}"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"
+            ><img
+              src="{{ url_for('static', filename='images/logoeboiadmin.png') }}"
+              alt="Logo eBoi"
+          /></a>
+        </div>
+        <ul class="menu">
+          <li><a href="/">Home</a></li>
+        </ul>
+        <a href="/logout" class="btn-area-cliente">Sair</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container">
+        <h1>{% block header %}eBoi{% endblock %}</h1>
+        {% block content %} {% endblock %}
+      </div>
+    </main>
+
+    <footer></footer>
+  </body>
+</html>

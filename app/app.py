@@ -122,7 +122,7 @@ def deletar_sensor(tipo, id):
 @app.route("/editar_sensores")
 @admin_required
 def editar_sensores():
-    return render_template("admin/editar_sensores.html")
+    return render_template("admin/edit/editar_sensores.html")
 
 # GERENCIA ATUADORES DO BANCO
 @app.route("/gerencia_atuador", methods=["POST", "GET"])
@@ -181,21 +181,21 @@ def deletar_atuador(tipo, id):
 
 # ROTA EDITAR ATUADOERS
 @app.route("/editar_atuadores")
-@admin_required
+# @admin_required
 def editar_atuadores():
-    return render_template("admin/editar_atuadores.html")
+    return render_template("admin/edit/editar_atuadores.html")
 
 # ROTA ADICIONAR SENSORES
 @app.route("/adicionar_sensores")
 @admin_required
 def add_sensores():
-    return render_template("admin/adicionar_sensores.html")
+    return render_template("admin/add/adicionar_sensores.html")
 
 # ROTA ADICIONAR ATUADORES
 @app.route("/adicionar_atuadores")
 @admin_required
 def add_atuadores():
-    return render_template("admin/adicionar_atuadores.html")
+    return render_template("admin/add/adicionar_atuadores.html")
 
 # LÓGICA DO LOGIN COM VALIDAÇÃO
 @app.route("/login", methods=["GET", "POST"])
