@@ -11,15 +11,23 @@ from config import mqtt as mqtt_package
 from admin.routes import admin_bp
 from auth.routes import auth_bp
 from general.routes import general_bp
+from flask_sqlalchemy import SQLAlchemy
+from app import db
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+db = SQLAlchemy(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = db.SQLALCHEMY_TRACK_MODIFICATIONS
+db.create_all()
 
 app.register_blueprint(admin_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(general_bp)
 
-conn = db.get_connection()
 mqtt_thread = mqtt_package.start_thread()
 
 # -----------------------------------

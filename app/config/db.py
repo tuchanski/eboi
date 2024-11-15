@@ -1,15 +1,12 @@
-import psycopg2
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
-DB_USER  = "postgres"
+DB_USER = "postgres"
 DB_PASS = "postgres"
 DB_PORT = "5432"
 
-def get_connection():
-    try:
-        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT)
-        return conn
-    except Exception as e:
-        print(f"Erro ao conectar ao banco de dados: {e}")
-        return None
+SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+SQLALCHEMY_TRACK_MODIFICATIONS = False

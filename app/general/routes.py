@@ -1,12 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
-from config import db
-import psycopg2
-import psycopg2.extras
 from functools import wraps
+from models import Usuario  # Modelo do SQLAlchemy
+from extensions import db
 
 general_bp = Blueprint('general', __name__, url_prefix='/eboi')
-
-conn = db.get_connection()
 
 def login_required(f):
     @wraps(f)
@@ -42,14 +39,16 @@ def faq():
 @general_bp.route("/perfil")
 @login_required
 def perfil():
-    cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     try:
         id = session["usuario_id"]
-        cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
-        usuario = cursor.fetchone()
-        return render_template("profile/perfil.html", usuario=usuario)
+        
+        usuario = Usuario.query.get(id)
+        
+        if usuario:
+            return render_template("profile/perfil.html", usuario=usuario)
+        else:
+            flash("Usuário não encontrado.", "danger")
+            return redirect(url_for("index"))
     except Exception as e:
-        print(f"Erro ao recuperar usuário: {e}")
-    finally:
-        cursor.close()
-    return redirect(url_for("index"))
+        flash(f"Erro ao recuperar usuário: {e}", "danger")
+        return redirect(url_for("index"))
