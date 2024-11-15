@@ -3,7 +3,7 @@ import psycopg2
 DB_HOST = "localhost"
 DB_NAME = "eBoi"
 DB_USER  = "postgres"
-DB_PASS = "root"
+DB_PASS = "postgres"
 DB_PORT = "5432"
 
 def get_connection():
