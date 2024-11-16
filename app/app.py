@@ -6,23 +6,24 @@ import psycopg2.extras
 import paho.mqtt.client as mqtt_client
 
 from flask import Flask, render_template, request, flash, redirect, url_for, session
-from config import db
-from config import mqtt as mqtt_package
+from config.db import db, SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
 from admin.routes import admin_bp
 from auth.routes import auth_bp
 from general.routes import general_bp
 from flask_sqlalchemy import SQLAlchemy
-from app import db
-
+from config import mqtt as mqtt_package
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = db.SQLALCHEMY_DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = db.SQLALCHEMY_TRACK_MODIFICATIONS
-db.create_all()
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 app.register_blueprint(admin_bp)
 app.register_blueprint(auth_bp)
