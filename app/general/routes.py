@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from functools import wraps
-from models import Usuario  # Modelo do SQLAlchemy
-from extensions import db
+from models import Usuario
 
 general_bp = Blueprint('general', __name__, url_prefix='/eboi')
 

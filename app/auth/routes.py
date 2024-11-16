@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from werkzeug.security import check_password_hash
 from models import Usuario
+from config.db import db
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -12,11 +13,9 @@ def login():
         senha = request.form["password"]
         try:
             usuario = Usuario.query.filter_by(email=email).first()
-            
-            if not usuario or not check_password_hash(usuario.senha, senha):
+            if not usuario or usuario.senha != senha:
                 flash("Informações incorretas.", "danger")
                 return redirect(url_for("auth.login"))
-
             session["usuario_id"] = usuario.id
             session["usuario_email"] = usuario.email
             session["usuario_tipo"] = usuario.tipo
