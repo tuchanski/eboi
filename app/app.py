@@ -68,7 +68,8 @@ def index():
 @login_required
 def dados_tempo_real():
     global mqtt_message
-    return render_template("mqtt/dados_tempo_real.html", message=mqtt_package.mqtt_message)
+    return render_template("mqtt/dados_tempo_real.html", temperature=mqtt_package.message_temperature, humidity=mqtt_package.message_humidity,
+                            motion=mqtt_package.message_motion, coordinates=mqtt_package.message_coordinates)
 
 # ROTA PRA ENVIAR COMANDOS VIA MQTT
 @app.route("/comando-remoto", methods=["GET", "POST"])
