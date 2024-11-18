@@ -27,14 +27,33 @@ def admin():
 @admin_required
 def gerencia_sensores():
     try:
-        sensores = db.session.query(SensorPosicao.id.label("id"), SensorPosicao.esp_gpsid.label("esp_id"), "Sensor_Posicao".label("tipo")).union_all(
-            db.session.query(SensorDistancia.id, SensorDistancia.esp_portaoid, "Sensor_Distancia")
-        ).union_all(
-            db.session.query(SensorTemperatura.id, SensorTemperatura.esp_portaoid, "Sensor_Temperatura")
-        ).all()
+        sensores = (
+            db.session.query(
+                SensorPosicao.id.label("id"),
+                SensorPosicao.esp_gps_id.label("esp_id"),
+                db.literal("Sensor_Posicao").label("tipo")
+            )
+            .union_all(
+                db.session.query(
+                    SensorDistancia.id,
+                    SensorDistancia.esp_portao_id.label("esp_id"),
+                    db.literal("Sensor_Distancia").label("tipo")
+                )
+            )
+            .union_all(
+                db.session.query(
+                    SensorTemperatura.id,
+                    SensorTemperatura.esp_portao_id.label("esp_id"),
+                    db.literal("Sensor_Temperatura").label("tipo")
+                )
+            )
+            .all()
+        )
+        
         if not sensores:
             flash("Sensores não encontrados.", "danger")
             return redirect(url_for("index"))
+        
         return render_template("/admin/editar_sensor.html", data=sensores)
     except Exception as e:
         flash(f"Erro ao recuperar sensores: {e}", "danger")
@@ -78,11 +97,12 @@ def editar_sensores():
 @admin_required
 def gerencia_atuadores():
     try:
-        atuadores = db.session.query(LED.id.label("id"), "LED".label("tipo")).union_all(
-            db.session.query(Buzzer.id, "Buzzer")
-        ).union_all(
-            db.session.query(ESPGps.id, "ESP_GPS")
-        ).all()
+        atuadores = (
+            db.session.query(LED.id, db.literal("LED").label("tipo"))
+            .union_all(db.session.query(Buzzer.id, db.literal("Buzzer").label("tipo")))
+            .union_all(db.session.query(ESPGps.id, db.literal("ESP_GPS").label("tipo")))
+            .all()
+        )
         if not atuadores:
             flash("Atuadores não encontrados.", "danger")
             return redirect(url_for("index"))
@@ -90,6 +110,7 @@ def gerencia_atuadores():
     except Exception as e:
         flash(f"Erro ao recuperar atuadores: {e}", "danger")
         return redirect(url_for("index"))
+
 
 # DELETA ATUADORES DO BANCO
 @admin_bp.route("/deletar_atuador/<string:tipo>/<int:id>", methods=["POST", "GET"])
@@ -116,6 +137,11 @@ def deletar_atuador(tipo, id):
         db.session.rollback()
         flash(f"Erro ao deletar atuador: {e}", "danger")
     return redirect(url_for("gerencia_atuadores"))
+
+@admin_bp.route("/adicionar_bovino")
+@admin_required
+def adicionar_bovino():
+    return render_template("admin/register_boi.html")
 
 @admin_bp.route("/editar_atuadores")
 @admin_required
