@@ -6,6 +6,9 @@ import psycopg2.extras
 import paho.mqtt.client as mqtt_client
 from config import mqtt as mqtt_package
 
+from models import HistoricoLocalizacao
+from models import HistoricoWarning
+
 mqtt_bp = Blueprint('auth', __name__, url_prefix='/mqtt')
 
 conn = db.get_connection()
@@ -37,3 +40,4 @@ def comando_remoto():
         client.publish(mqtt_package.MQTT_TOPIC_COMMAND, comando)
         flash(f"Comando '{comando}' enviado com sucesso!", "success")
     return render_template("mqtt/comando_remoto.html")
+

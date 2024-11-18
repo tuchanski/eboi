@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from functools import wraps
 from models import Usuario
+from models import HistoricoWarning
+from models import HistoricoLocalizacao
 
 general_bp = Blueprint('general', __name__, url_prefix='/eboi')
 

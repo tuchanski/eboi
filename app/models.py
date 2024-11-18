@@ -118,3 +118,20 @@ class SensorTemperatura(db.Model):
 
     def __repr__(self):
         return f"<SensorTemperatura ID {self.id}>"
+
+class HistoricoWarning(db.Model):
+    __tablename__ = 'historico_sensores'
+
+    id = db.Column(db.Integer, primary_key=True)
+    sensor = db.Column(db.String(50), nullable=False)
+    valor = db.Column(db.String(255), nullable=False)
+    data_hora = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+
+class HistoricoLocalizacao(db.Model):
+    __tablename__ = 'historico_localizacao'
+
+    id = db.Column(db.Integer, primary_key=True)
+    bovino_id = db.Column(db.Integer, db.ForeignKey('bovino.id'))
+    localizacao = db.Column(db.String(100), nullable=False)
+    data_hora = db.Column(db.DateTime, default=db.func.current_timestamp())

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Sensores</title>
+</head>
+<body>
+    <h1>Histórico de Sensores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo de Sensor</th>
+                <th>Valor</th>
+                <th>Data e Hora</th>
+                <th>ESP Portão ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dado in dados %}
+            <tr>
+                <td>{{ dado.id }}</td>
+                <td>{{ dado.tipo_sensor }}</td>
+                <td>{{ dado.valor }}</td>
+                <td>{{ dado.data_hora }}</td>
+                <td>{{ dado.esp_portao_id or 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
