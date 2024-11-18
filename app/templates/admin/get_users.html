@@ -47,37 +47,6 @@
               <form action="{{ url_for('admin.deletar_usuario', id=usuario.id) }}" method="POST" style="display:inline;">
                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar este usuário?')">Remover</button>
             </form>
-
-            <script>
-              // Captura o evento de submissão do formulário
-              document.getElementById('form-deletar-{{ usuario.id }}').addEventListener('submit', function(event) {
-                  event.preventDefault();  // Evita o envio padrão do formulário
-                  
-                  // Realiza a requisição AJAX para deletar o usuário
-                  var form = this;
-                  fetch(form.action, {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams(new FormData(form)).toString()
-                  })
-                  .then(response => response.json())  // Espera a resposta JSON do backend
-                  .then(data => {
-                      if (data.success) {
-                          // Atualiza a interface para remover o usuário da lista
-                          form.closest('tr').remove();  // Remove a linha da tabela onde o usuário estava
-                          alert('Usuário deletado com sucesso!');
-                      } else {
-                          alert('Erro ao deletar usuário.');
-                      }
-                  })
-                  .catch(error => {
-                      console.error('Erro:', error);
-                      alert('Erro ao tentar deletar o usuário.');
-                  });
-              });
-          </script>
             </td>
           </tr>
           {% endfor %}
