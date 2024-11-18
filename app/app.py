@@ -13,6 +13,8 @@ from general.routes import general_bp
 from flask_sqlalchemy import SQLAlchemy
 from config import mqtt as mqtt_package
 
+from models import HistoricoWarning, HistoricoLocalizacao
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
@@ -29,7 +31,7 @@ app.register_blueprint(admin_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(general_bp)
 
-mqtt_thread = mqtt_package.start_thread()
+mqtt_thread = mqtt_package.start_thread(app=app)
 
 # -----------------------------------
 
@@ -82,6 +84,17 @@ def comando_remoto():
         client.publish(mqtt_package.MQTT_TOPIC_COMMAND, comando)
         flash(f"Comando '{comando}' enviado com sucesso!", "success")
     return render_template("mqtt/comando_remoto.html")
+
+@app.route('/historico-alerta')
+@login_required
+def historico():
+    dados = HistoricoWarning.query.order_by(HistoricoWarning.data_hora.desc()).all()
+    return render_template('historico_warning.html', dados=dados)
+
+@app.route('/historico-localizacao')
+def historico_localizacao():
+    dados = HistoricoLocalizacao.query.order_by(HistoricoLocalizacao.data_hora.desc()).all()
+    return render_template('historico_localizacao.html', dados=dados)
 
 # -----------------------------------
             
