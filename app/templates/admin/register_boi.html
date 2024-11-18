@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Usuário | eBoi</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style-register.css') }}"
+    />
+    <script>
+      window.onload = function () {
+        var flashMessage =
+          document.getElementById("flash-message").dataset.message;
+        var flashCategory =
+          document.getElementById("flash-message").dataset.category;
+
+        if (flashMessage) {
+          alert(flashMessage);
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <img
+      src="{{ url_for('static', filename='images/logoeboi.png') }}"
+      alt="Logo eBoi"
+      class="logo"
+    />
+
+    <div
+      id="flash-message"
+      data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}"
+      data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
+    ></div>
+
+    <div class="container">
+      <div class="cadastro-left">
+        <div class="image-wrapper">
+          <img
+            src="{{ url_for('static', filename='images/img-figma3.png') }}"
+            alt="Imagem de cadastro"
+          />
+          <div class="overlay">
+            <p>
+              Cadastre novos bovinos com o <br />
+              <span class="highlight">Painel Admin eBoi</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cadastro-right">
+        <h1>Cadastrar Bovino</h1>
+        <p class="subtitle">Preencha os dados abaixo:</p>
+        <form action="/admin/registrar_usuario" method="POST">
+          <label for="raca">Raça</label>
+          <input
+            type="text"
+            id="raca"
+            name="raca"
+            placeholder="Insira a raça"
+            required
+          />
+
+          <label for="data_nascimento">Data de Nascimento</label>
+          <input
+            type="date"
+            id="data_nascimento"
+            name="data_nascimento"
+            required
+          />
+
+          <label for="peso">Peso</label>
+          <input
+            type="text"
+            id="peso"
+            name="peso"
+            placeholder="Insira o peso (em kg)"
+            required
+          />
+
+          <label for="fazenda_id">Id da Fazenda</label>
+          <input
+            type="text"
+            id="fazenda_id"
+            name="fazenda_id"
+            placeholder="Insira o id da fazenda"
+            required
+          />
+
+          <button type="submit" class="btn-cadastro">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

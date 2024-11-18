@@ -138,6 +138,11 @@ def deletar_atuador(tipo, id):
         flash(f"Erro ao deletar atuador: {e}", "danger")
     return redirect(url_for("gerencia_atuadores"))
 
+@admin_bp.route("/adicionar_bovino")
+@admin_required
+def adicionar_bovino():
+    return render_template("admin/register_boi.html")
+
 @admin_bp.route("/editar_atuadores")
 @admin_required
 def editar_atuadores():
