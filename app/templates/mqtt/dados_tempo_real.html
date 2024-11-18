@@ -8,17 +8,22 @@
       href="{{ url_for('static', filename='css/style-dados.css') }}"
     />
     <title>Dados em Tempo Real</title>
+    <script>
+      function atualizarPagina() {
+        window.location.reload();
+      }
+    </script>
   </head>
   <body>
     <div class="container">
       <h1>Dados em Tempo Real</h1>
-      <div class="data-block">
+      <div class="data">
         <p><strong>Temperatura:</strong> {{ temperature if temperature is not none else "Indefinido" }} °C</p>
         <p><strong>Umidade:</strong> {{ humidity if humidity is not none else "Indefinido" }} %</p>
         <p><strong>Movimento Detectado:</strong> {{ motion if motion is not none else "Indefinido" }}</p>
         <p><strong>Coordenadas:</strong> {{ coordinates if coordinates is not none else "Indefinido" }}</p>
       </div>
-      <button><a href="#">Atualizar</a></button>
+      <button><a onclick="atualizarPagina()">Atualizar</a></button>
     </div>
   </body>
 </html>
