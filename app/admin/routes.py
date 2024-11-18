@@ -192,11 +192,11 @@ def registrar_usuario():
             db.session.add(usuario)
             db.session.commit()
             flash("Usuário adicionado com sucesso!", "success")
-            return redirect(url_for("index"))
+            return redirect(url_for("admin.admin"))
         except Exception as e:
             db.session.rollback()
             flash(f"Erro ao registrar usuário: {e}", "danger")
-            return redirect(url_for("index"))
+            return redirect(url_for("admin.admin"))
     return render_template("admin/register_user.html")
 
 # GERENCIA OPERAÇÕES DE DELETE E EDIT DE USUÁRIOS REGISTRADOS NO BANCO
@@ -246,11 +246,11 @@ def deletar_usuario(id):
         db.session.delete(usuario)
         db.session.commit()
         flash("Usuário deletado com sucesso!", "warning")
-        return redirect(url_for("admin_bp.gerencia_usuario"))
+        return redirect(request.referrer)
     except SQLAlchemyError as e:
         db.session.rollback()
         flash(f"Erro ao deletar usuário: {e}", "danger")
-        return redirect(url_for("admin_bp.gerencia_usuario"))
+        return redirect(request.referrer)
 
 # 2. REGISTROS DE SENSOR/ATUADOR ->
 @admin_required
