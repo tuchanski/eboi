@@ -29,6 +29,7 @@ def salvar_historico(sensor, valor, app, bovino_id=None):
         try:
             if sensor == "coordinates":
                 historico = HistoricoLocalizacao(bovino_id=bovino_id, localizacao=valor)
+                print(last_values["coordinates"])
             elif sensor == "motion":
                 historico = HistoricoWarning(sensor=sensor, valor=valor)
             else:
@@ -67,21 +68,25 @@ def on_message(client, userdata, msg):
     if msg.topic == MQTT_TOPIC_COORDINATES:
         value = msg.payload.decode()
         print(f"Coordenadas recebidas: {value}")
+        last_values["coordinates"] = value
         salvar_historico("coordinates", value, app, bovino_id=1) # Bovino 1
 
     elif msg.topic == MQTT_TOPIC_TEMPERATURE:
         value = msg.payload.decode()
         print(f"Temperatura recebida: {value}")
+        last_values["temperature"] = value
         salvar_historico("temperature", value, app)
 
     elif msg.topic == MQTT_TOPIC_HUMIDITY:
         value = msg.payload.decode()
         print(f"Umidade recebida: {value}")
+        last_values["humidity"] = value
         salvar_historico("humidity", value, app)
 
     elif msg.topic == MQTT_TOPIC_MOTION:
         value = msg.payload.decode()
         print(f"Movimento recebido: {value}")
+        last_values["motion"] = value
         salvar_historico("motion", value, app)
 
     else:
