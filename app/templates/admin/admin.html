@@ -41,6 +41,19 @@ eBoi{% endblock %} {% block styles %}
       <p>Registrar bovinos.</p>
       <a href="/admin/adicionar_bovino" class="btn-cotar">Registrar</a>
     </div>
+    <div class="action-card">
+      <h2>Histórico de Localização</h2>
+      <p>Recuperar histórico de localização do bovino.</p>
+      <a href="/historico-localizacao" class="btn-cotar">Localizar</a>
+    </div>
+    <div class="action-card">
+      <img src="{{ url_for('static', filename='images/boi png.png') }}">
+    </div>
+    <div class="action-card">
+      <h2>Histórico de Alerta</h2>
+      <p>Recuperar histórico de alertas do portão.</p>
+      <a href="/historico-alerta" class="btn-cotar">Recuperar</a>
+    </div>
   </div>
 </section>
 {% endblock %}

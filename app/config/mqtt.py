@@ -9,10 +9,10 @@ from flask import current_app as app
 MQTT_BROKER = 'broker.hivemq.com'
 MQTT_PORT = 1883
 
-MQTT_TOPIC_COORDINATES = 'esp32/coordinates'
-MQTT_TOPIC_TEMPERATURE = 'esp32/temperature'
-MQTT_TOPIC_HUMIDITY = 'esp32/humidity'
-MQTT_TOPIC_MOTION = 'esp32/motion'
+MQTT_TOPIC_COORDINATES = 'eboi/coordinates'
+MQTT_TOPIC_TEMPERATURE = 'eboi/temperature'
+MQTT_TOPIC_HUMIDITY = 'eboi/humidity'
+MQTT_TOPIC_MOTION = 'eboi/motion'
 
 mqtt_list = [MQTT_TOPIC_COORDINATES, MQTT_TOPIC_TEMPERATURE, MQTT_TOPIC_HUMIDITY, MQTT_TOPIC_MOTION]
 
@@ -25,24 +25,27 @@ last_values = {
 }
 
 def salvar_historico(sensor, valor, app, bovino_id=None):
-
     with app.app_context():
-        if last_values.get(sensor) != valor:
+        try:
             if sensor == "coordinates":
                 historico = HistoricoLocalizacao(bovino_id=bovino_id, localizacao=valor)
-            else:
+            elif sensor == "motion":
                 historico = HistoricoWarning(sensor=sensor, valor=valor)
-            
-            try:
-                db.session.add(historico)
-                db.session.commit()
-                last_values[sensor] = valor  # Atualiza o último valor armazenado
-                print(f"Dados salvos no banco para o sensor {sensor}: {valor}")
-            except Exception as e:
-                db.session.rollback()
-                print(f"Erro ao salvar no banco: {e}")
-        else:
-            print(f"Valor não salvo para o sensor {sensor}, pois é igual ao último: {valor}")
+            else:
+                if last_values.get(sensor) != valor:
+                    historico = HistoricoWarning(sensor=sensor, valor=valor)
+                    last_values[sensor] = valor
+                else:
+                    print(f"Valor não salvo para o sensor {sensor}, pois é igual ao último: {valor}")
+                    return
+
+            db.session.add(historico)
+            db.session.commit()
+            print(f"Dados salvos no banco para o sensor {sensor}: {valor}")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar no banco: {e}")
+
 
 def on_connect(client, userdata, flags, rc):
     
