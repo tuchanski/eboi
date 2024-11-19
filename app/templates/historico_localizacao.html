@@ -23,10 +23,10 @@
         <tbody>
             {% for dado in dados %}
             <tr>
-                <td>{{ dado.id }}</td>
-                <td>{{ dado.bovino_id }}</td>
-                <td>{{ dado.localizacao }}</td>
-                <td>{{ dado.data_hora }}</td>
+                <td>{{ dado.id or '1' }}</td>
+                <td>{{ dado.bovino_id or '1' }}</td>
+                <td>{{ dado.localizacao or 'N/A' }}</td>
+                <td>{{ dado.data_hora or 'N/A' }}</td>
             </tr>
             {% endfor %}
         </tbody>

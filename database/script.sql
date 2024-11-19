@@ -77,10 +77,10 @@ CREATE TABLE Sensor_Temperatura (
 
 CREATE TABLE Historico_Warning (
     ID SERIAL PRIMARY KEY,
-    Tipo_Sensor VARCHAR(50) NOT NULL, -- Ex.: 'Temperatura', 'Umidade', 'Movimento', 'Localizacao'
-    Valor VARCHAR(100) NOT NULL,      -- Valor capturado (temperatura, coordenadas, etc.)
+    Tipo_Sensor VARCHAR(50) NOT NULL,
+    Valor VARCHAR(100) NOT NULL,
     Data_Hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ESP_PortaoID INT,                 -- Associação opcional com ESP_Portao
+    ESP_PortaoID INT,
     FOREIGN KEY (ESP_PortaoID) REFERENCES ESP_Portao(ID)
 );
 
