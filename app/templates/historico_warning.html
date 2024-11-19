@@ -18,17 +18,15 @@
                 <th>Tipo de Sensor</th>
                 <th>Valor</th>
                 <th>Data e Hora</th>
-                <th>ESP Portão ID</th>
             </tr>
         </thead>
         <tbody>
             {% for dado in dados %}
             <tr>
                 <td>{{ dado.id }}</td>
-                <td>{{ dado.tipo_sensor }}</td>
+                <td>{{ dado.sensor }}</td>
                 <td>{{ dado.valor }}</td>
                 <td>{{ dado.data_hora }}</td>
-                <td>{{ dado.esp_portao_id or 'N/A' }}</td>
             </tr>
             {% endfor %}
         </tbody>
