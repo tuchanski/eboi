@@ -5,6 +5,7 @@ from functools import wraps
 from sqlalchemy.exc import SQLAlchemyError
 from models import Usuario, SensorPosicao, SensorDistancia, SensorTemperatura, LED, Buzzer, ESPGps, ESPPortao
 from config import db
+from models import Bovino
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -199,6 +200,27 @@ def registrar_usuario():
             return redirect(url_for("admin.admin"))
     return render_template("admin/register_user.html")
 
+# REGISTRAR O BOI NO BANCO
+@admin_bp.route("/registrar_bovino", methods=["POST", "GET"])
+@admin_required
+def registrar_bovino():
+    if request.method == "POST":
+        raca = request.form["raca"]
+        data_nascimento = request.form["data_nascimento"]
+        peso = request.form["peso"]
+        fazenda_id = 1
+        try:
+            boi = Bovino(raca, data_nascimento, peso, fazenda_id)
+            db.session.add(boi)
+            db.session.commit()
+            flash("Boi adicionado com sucesso!", "success")
+            return redirect(url_for("admin.admin"))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erro ao registrar bovino: {e}", "danger")
+            return redirect(url_for("admin.admin"))
+    return render_template("admin/register_boi.html")
+
 # GERENCIA OPERAÇÕES DE DELETE E EDIT DE USUÁRIOS REGISTRADOS NO BANCO
 @admin_bp.route("/gerencia_usuario", methods=["POST", "GET"])
 @admin_required
@@ -230,12 +252,14 @@ def editar_usuario(id):
             usuario.senha = senha
             db.session.commit()
             flash("Dados do usuário atualizados com sucesso!", "success")
-            return redirect(url_for("admin_bp.gerencia_usuario"))
+            return redirect(url_for("admin.recuperar_usuarios"))
         except SQLAlchemyError as e:
             db.session.rollback()
             flash(f"Erro ao atualizar usuário: {e}", "danger")
 
     return render_template("admin/edit_user.html", usuario=usuario)
+
+
 
 # DELETA USUÁRIO NO BANCO
 @admin_bp.route("/deletar_usuario/<int:id>", methods=["POST", "GET"])
