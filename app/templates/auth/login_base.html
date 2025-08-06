@@ -8,26 +8,28 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style-login.css') }}"
     />
-    <script>
-      window.onload = function () {
-        var flashMessage =
-          document.getElementById("flash-message").dataset.message;
-        var flashCategory =
-          document.getElementById("flash-message").dataset.category;
-
-        if (flashMessage) {
-          alert(flashMessage);
-        }
-      };
-    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   </head>
   <body>
-    <!-- Elemento de mensagem flash -->
-    <div
-      id="flash-message"
-      data-message="{{ get_flashed_messages()[0] if get_flashed_messages() else '' }}"
-      data-category="{{ get_flashed_messages(with_categories=True)[0][0] if get_flashed_messages(with_categories=True) else '' }}"
-    ></div>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <script>
+      toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "3000"
+      };
+      {% for category, message in messages %}
+        toastr["{{ category }}"]("{{ message }}");
+      {% endfor %}
+    </script>
+    {% endif %} {% endwith %}
 
     <!-- Logo e link para página inicial -->
     <a href="/">

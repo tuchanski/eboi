@@ -14,7 +14,7 @@ def login():
         try:
             usuario = Usuario.query.filter_by(email=email).first()
             if not usuario or usuario.senha != senha:
-                flash("Informações incorretas.", "danger")
+                flash("Informações incorretas! Tente novamente.", "error")
                 return redirect(url_for("auth.login"))
             session["usuario_id"] = usuario.id
             session["usuario_email"] = usuario.email
@@ -23,7 +23,7 @@ def login():
             flash("Login bem-sucedido!", "success")
             return redirect(url_for("index"))
         except Exception as e:
-            flash(f"Erro ao buscar usuário: {e}", "danger")
+            flash(f"Erro ao buscar usuário: {e}", "error")
             return redirect(url_for("auth.login"))
     return render_template("auth/login.html")
 
