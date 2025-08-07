@@ -65,7 +65,6 @@ def login_required(f):
 #         return redirect(url_for("auth.login"))
     
 
-
 # Debug/Para retirar a necessidade de login sempre ao reiniciar a aplicação.
 @app.route("/")
 def index():

@@ -67,6 +67,23 @@ nav ul.menu li a {
   margin-left: 20px;
 }
 
+.btn-area-cliente:hover {
+  background-color: #90ad0c;
+}
+
+.btn-logout {
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 16px;
+  margin-left: 20px;
+}
+
+.btn-logout:hover {
+  background-color: #c9302c;
+}
+
 /*  */
 /* Hero Section */
 /*  */
