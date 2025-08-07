@@ -2,8 +2,8 @@
 {% block content %}
 <section class="hero">
   <div class="content">
-    <h1>Monitoramento Inteligente</h1>
-    <p>
+    <h1 class="hero-title">Monitoramento Inteligente</h1>
+    <p class="hero-text">
       Acompanhe a <span class="highlight">localização</span> e o
       <span class="highlight">bem-estar</span> de seus animais em tempo real,
       onde quer que você esteja.
@@ -17,4 +17,83 @@
     />
   </div>
 </section>
+
+<section id="sobre-nos" class="sobre-nos">
+  <div
+    class="bg-img"
+    style="background-image: url('{{ url_for('static', filename='images/fazenda.jpg') }}')"
+  ></div>
+  <div class="content">
+    <h1 class="sobre-title">Sobre Nós</h1>
+    <p class="sobre-text">
+      A eBoi é uma empresa dedicada ao monitoramento de animais, proporcionando
+      segurança e bem-estar aos criadores.
+    </p>
+    <p class="sobre-text">
+      Nossa missão é inovar na forma como os criadores acompanham a saúde e a
+      localização dos seus animais, utilizando tecnologia de ponta.
+    </p>
+    <p class="sobre-text">
+      Junte-se a nós e faça parte dessa revolução no cuidado animal!
+    </p>
+  </div>
+</section>
+
+<section id="cotar" class="cotar">
+  <div class="content">
+    <h1 class="cotar-title">Solicite sua Cotação</h1>
+    <p class="cotar-text">
+      Garanta mais <span class="highlight">segurança</span>,
+      <span class="highlight">controle</span> e
+      <span class="highlight">tranquilidade</span> no campo.
+    </p>
+    <p class="cotar-text">
+      Com a eBoi, você acompanha a localização, o bem-estar e a saúde dos seus
+      animais em tempo real, de onde estiver.
+    </p>
+    <a href="#" class="btn-cotacao">Enviar Mensagem</a>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="container">
+    <div class="faq-content">
+      <h1 class="faq-title">Perguntas Frequentes</h1>
+      <p class="faq-subtitle">
+        Aqui você encontrará respostas para as perguntas mais comuns sobre
+        nossos serviços.
+      </p>
+
+      <div class="faq-item">
+        <h2 class="faq-item-title">1. Como funciona o monitoramento?</h2>
+        <p class="faq-item-answer">
+          <b>R:</b> O monitoramento é feito em tempo real através de
+          dispositivos instalados nos seus animais.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h2 class="faq-item-title">
+          2. Posso acompanhar a localização dos meus animais?
+        </h2>
+        <p class="faq-item-answer">
+          <b>R:</b> Sim! Pelo nosso aplicativo você acompanha em tempo real.
+        </p>
+      </div>
+      <div class="faq-item">
+        <h2 class="faq-item-title">3. É possível cancelar o serviço?</h2>
+        <p class="faq-item-answer">
+          <b>R:</b> Sim, a qualquer momento pelo seu painel.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-image">
+      <img
+        src="{{ url_for('static', filename='images/fazendeiro.jpg') }}"
+        alt="Fazendeiro com tecnologia"
+      />
+    </div>
+  </div>
+</section>
+
 {% endblock %}

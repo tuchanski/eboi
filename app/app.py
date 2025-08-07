@@ -63,6 +63,14 @@ def index():
         return render_template("home/home.html", usuario_tipo=usuario_tipo)
     else:
         return redirect(url_for("auth.login"))
+    
+
+
+# Debug/Para retirar a necessidade de login sempre ao reiniciar a aplicação.
+# @app.route("/")
+# def index():
+#     usuario_tipo = session.get('usuario_tipo')
+#     return render_template("home/home.html", usuario_tipo=usuario_tipo)
 
 
 # ROTA PARA VISUALIZAÇÃO DOS DADOS EM TEMPO REAL (PERMITIDO ADM E USUÁRIO NORMAL)
@@ -98,4 +106,4 @@ def historico_localizacao():
 # -----------------------------------
             
 if __name__ == "__main__":
-    app.run("localhost", 8080, None)
+    app.run(debug=True, host="localhost", port=8080)

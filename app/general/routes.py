@@ -15,27 +15,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return wrap2
 
-# ROTA DA PÁGINA COTAR
-@general_bp.route("/cotar")
-@login_required
-def cotar():
-    usuario_tipo = session.get('usuario_tipo')
-    return render_template("others/cotar.html", usuario_tipo=usuario_tipo)
-
-# ROTA DA PÁGINA SOBRE NOS
-@general_bp.route("/sobre-nos")
-@login_required
-def sobre_nos():
-    usuario_tipo = session.get('usuario_tipo')
-    return render_template("others/sobre-nos.html", usuario_tipo=usuario_tipo)
-
-# ROTA DA PÁGINA FAQ
-@general_bp.route("/faq")
-@login_required
-def faq():
-    usuario_tipo = session.get('usuario_tipo')
-    return render_template("others/faq.html", usuario_tipo=usuario_tipo)
-
 # TELA DO PERFIL DO USUÁRIO
 @general_bp.route("/perfil")
 @login_required
