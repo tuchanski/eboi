@@ -5,7 +5,6 @@ from config.db import db
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -32,4 +31,4 @@ def login():
 def logout():
     session.clear()
     flash("Você saiu da sua conta.", "info")
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("index"))

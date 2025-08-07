@@ -48,10 +48,14 @@
           <li><a href="#faq">FAQ</a></li>
         </ul>
 
-        {% if usuario_tipo == 'admin' %}
+        {% if usuario_tipo %} {% if usuario_tipo == 'admin' %}
         <a href="/admin" class="btn-area-cliente">Área do Admin</a>
         {% else %}
         <a href="/eboi/perfil" class="btn-area-cliente">Área do Cliente</a>
+        {% endif %}
+        <a href="/auth/logout" class="btn-area-cliente">Sair</a>
+        {% else %}
+        <a href="/auth/login"" class="btn-area-cliente">Já é um cliente?</a>
         {% endif %}
       </nav>
     </header>

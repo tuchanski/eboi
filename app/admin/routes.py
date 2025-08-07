@@ -13,7 +13,7 @@ def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if "usuario_id" not in session or session.get("usuario_tipo") != "admin":
-            flash("Acesso restrito aos administradores.", "danger")
+            flash("Acesso restrito aos administradores.", "error")
             return redirect(url_for("index"))
         return f(*args, **kwargs)
     return wrap

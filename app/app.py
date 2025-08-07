@@ -40,7 +40,7 @@ def admin_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if "usuario_id" not in session or session.get("usuario_tipo") != "admin":
-            flash("Acesso restrito aos administradores.", "danger")
+            flash("Acesso restrito aos administradores.", "error")
             return redirect(url_for("index"))
         return f(*args, **kwargs)
     return wrap
@@ -49,28 +49,28 @@ def login_required(f):
     @wraps(f)
     def wrap2(*args, **kwargs):
         if "usuario_id" not in session:
-            flash("Você precisa estar logado para acessar esta página.", "danger")
+            flash("Você precisa estar logado para acessar esta página.", "error")
             return redirect(url_for("auth.login"))
         return f(*args, **kwargs)
     return wrap2
 
 # -----------------------------------
 # ROTA DA PÁGINA INICIAL
-@app.route("/")
-def index():
-    usuario_tipo = session.get('usuario_tipo')
-    if usuario_tipo:
-        return render_template("home/home.html", usuario_tipo=usuario_tipo)
-    else:
-        return redirect(url_for("auth.login"))
+# @app.route("/")
+# def index():
+#     usuario_tipo = session.get('usuario_tipo')
+#     if usuario_tipo:
+#         return render_template("home/home.html", usuario_tipo=usuario_tipo)
+#     else:
+#         return redirect(url_for("auth.login"))
     
 
 
 # Debug/Para retirar a necessidade de login sempre ao reiniciar a aplicação.
-# @app.route("/")
-# def index():
-#     usuario_tipo = session.get('usuario_tipo')
-#     return render_template("home/home.html", usuario_tipo=usuario_tipo)
+@app.route("/")
+def index():
+    usuario_tipo = session.get('usuario_tipo')
+    return render_template("home/home.html", usuario_tipo=usuario_tipo)
 
 
 # ROTA PARA VISUALIZAÇÃO DOS DADOS EM TEMPO REAL (PERMITIDO ADM E USUÁRIO NORMAL)
