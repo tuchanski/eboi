@@ -250,7 +250,7 @@ nav ul.menu li a {
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  padding: 0 20px; /* Garante espaçamento lateral mesmo em telas menores */
+  padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -311,6 +311,151 @@ nav ul.menu li a {
   padding-left: 16px;
 }
 
+/*  */
+/* Footer */
+/*  */
+
+footer {
+  background-color: white;
+  padding: 60px;
+}
+
+.footer-container {
+  background-color: #633f22;
+  border-radius: 20px;
+  padding: 40px 60px;
+}
+
+.logo-footer > a > img {
+  height: 40px;
+  width: auto;
+  transition: 0.6s;
+}
+
+.logo-footer img:hover {
+  transform: scale(1.07);
+  cursor: pointer;
+}
+
+.logo-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: 30px;
+  max-width: 1280px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 10px 20px;
+}
+
+.footer-text {
+  color: rgb(185, 185, 185);
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.footer-text:hover {
+  color: white;
+}
+
+.line {
+  width: 30%;
+  height: 1px;
+  background-color: rgb(151, 151, 151);
+  margin: 30px auto 0 auto;
+}
+
+.policies {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  margin: 10px auto 0 auto;
+  text-align: center;
+  color: rgb(151, 151, 151);
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.footer-social img {
+  height: 40px;
+  width: auto;
+  transition: 0.6s;
+}
+
+.footer-social img:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
+
+.footer-newsletter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+  gap: 10px;
+}
+
+.newsletter-title {
+  font-size: 16px;
+  margin: 0;
+  text-align: right;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-form input {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 200px;
+}
+
+.newsletter-form button {
+  background-color: white;
+  color: #633f22;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.newsletter-form button:hover {
+  background-color: #f5f5f5;
+}
 /* Responsividade */
 @media (max-width: 768px) {
   .hero {

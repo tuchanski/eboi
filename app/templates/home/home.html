@@ -96,4 +96,78 @@
   </div>
 </section>
 
+<footer>
+  <div class="footer-container">
+    <div class="logo-footer">
+      <a href="/">
+        <img
+          src="{{ url_for('static', filename='images/logoeboi-white.png') }}"
+          alt="Logo eBoi"
+        />
+      </a>
+      <div class="footer-links">
+        <div class="footer-content">
+          <div class="footer-grid">
+            <p class="footer-text">Notícias</p>
+            <p class="footer-text">Mercado</p>
+            <p class="footer-text">Eventos</p>
+            <p class="footer-text">Blog</p>
+            <p class="footer-text">Sobre nós</p>
+            <p class="footer-text">Contato</p>
+            <p class="footer-text">Privacidade</p>
+            <p class="footer-text">Termos de uso</p>
+          </div>
+
+          <div class="footer-social">
+            <a href="https://instagram.com/eboi-perfil-oficial" target="_blank">
+              <img
+                src="{{ url_for('static', filename='images/instagram-icon.png') }}"
+                alt="Instagram"
+              />
+            </a>
+            <a href="https://instagram.com/eboi-perfil-oficial" target="_blank">
+              <img
+                src="{{ url_for('static', filename='images/facebook-icon.png') }}"
+                alt="Facebook"
+              />
+            </a>
+            <a href="https://instagram.com/eboi-perfil-oficial" target="_blank">
+              <img
+                src="{{ url_for('static', filename='images/youtube-icon.png') }}"
+                alt="YouTube"
+              />
+            </a>
+            <a href="https://instagram.com/eboi-perfil-oficial" target="_blank">
+              <img
+                src="{{ url_for('static', filename='images/linkedin-icon.png') }}"
+                alt="LinkedIn"
+              />
+            </a>
+            <a href="https://instagram.com/eboi-perfil-oficial" target="_blank">
+              <img
+                src="{{ url_for('static', filename='images/twitter-icon.png') }}"
+                alt="Twitter"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-newsletter">
+          <p class="newsletter-title">Receba nossas novidades</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Seu e-mail" required />
+            <button type="submit">Inscrever-se</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="line"></div>
+    <a class="policies" href=""
+      >Termos do Site | Política de Privacidade | Declaração de
+      Acessibilidade</a
+    >
+  </div>
+</footer>
+
 {% endblock %}
