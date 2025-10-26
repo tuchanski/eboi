@@ -1,4 +1,4 @@
-## eBoi Web 🐂
+## eBoi 🐂
 
 Smart cattle monitoring and control platform built with Flask, PostgreSQL, and MQTT. It receives telemetry from ESP32 devices (GPS, motion, temperature, humidity), stores historical data, and provides an admin panel to manage users and devices, plus real‑time dashboards and remote commands.
 
